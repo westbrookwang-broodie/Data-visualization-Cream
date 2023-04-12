@@ -29,18 +29,17 @@ export default {
     async icsv() {
       const d = []
       let this_ = this
-      await d3.csv('src/data/movie2014box.csv',function (data1) {
+      await d3.csv('src/data/movie2000box.csv',function (data1) {
         d.push(+data1['票房（万元）'])
         this_.data2.push(data1['电影'])
       })
       this.data = d
-      console.log(this.data2)
     },
     async draw(){
       await this.icsv()
       let margin = 20;
       let svg = d3.select('svg');
-      svg.attr('width',40000);
+      svg.attr('width',4000);
       svg.attr('height',2000);
       let width = svg.attr('width')
       let height = svg.attr('height')
@@ -48,7 +47,6 @@ export default {
         .attr("transform", 'translate('+ margin +','+ margin +')');
 
       // 定义 X 轴比例尺
-      console.log(this.data)
       let scaleX = d3.scaleBand()
         .domain(d3.range(this.data.length))
         .rangeRound([0,width - margin*2])
@@ -66,92 +64,152 @@ export default {
         (d,i)=>{return this_.data2[i]}
         );
       let axisY = d3.axisLeft(scaleY);
-      g.append('g').attr("transform", "translate(0, " + (height - margin * 2) + ")").call(axisX).append('text').text(89)
+      g.append('g').attr("transform", "translate(0, " + (height - margin * 2) + ")").call(axisX)
       g.append('g').attr("transform", "translate(0,0)").call(axisY);
 
+      let cnt = 0
+      setInterval(async ()=> {
+        cnt+=1
+        // 改变横坐标下电影标签
+          axisX.tickFormat((d,i)=>{
+          return this.data2[i]
+        })
+        g.select('g').transition().duration(500).call(axisX)
+
+
+
+
       // 创建矩形分组
-      let gs = g.selectAll('rect')
+      const gs = g.selectAll('rect')
         .data(this.data)
-        .enter()
-        .append('g');
+        // .enter()
+        // .append('g');
 
-      // 绘制矩形 + 过渡效果
-      let rectP = 40; // 柱状图间距
-      gs.append('rect')
-        .attr('x', function(d,i){
-          return scaleX(i) + rectP/2;
+
+
+        // 绘制矩形 + 过渡效果
+        let rectP = 40; // 柱状图间距
+        gs.enter().append('g').
+        append('rect')
+          .attr('x', function(d,i){
+            return scaleX(i) + rectP/2;
+          })
+          .attr('y',function(d,i){
+            // var min = scaleY.domain()[0]; // [0, 73]
+            // return scaleY(min);
+            scaleY(0)
+            // y轴比例尺映射出来的是最大值；这个效果等同于 return height - 2*margin 的效果
+          })
+          .attr('width',function(d,i){
+            return scaleX.step() - rectP;
+          })
+          .attr('height',function(d,i){
+            return 0; // 动画初始状态为0
+          })
+          .attr('fill','pink')
+          .transition('enter-transition')
+          .duration(500)
+          .delay(function(d,i){
+            return i*200 // 每个柱子逐渐开始的效果
+          })
+          .attr('y',function(d,i){
+            return scaleY(d)
+          })
+          .attr('height',function(d,i){
+            return height - margin * 2 - scaleY(d)
+          })
+        // 添加鼠标划入划出事件
+        gs.on("mouseout",function () {
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .delay(100)
+            .attr('fill','pink');
+          console.log(this.lastChild)
         })
-        .attr('y',function(d,i){
-          var min = scaleY.domain()[0]; // [0, 73]
-          return scaleY(min);
-          // scaleY(0) y轴比例尺映射出来的是最大值；这个效果等同于 return height - 2*margin 的效果
-        })
-        .attr('width',function(d,i){
-          return scaleX.step() - rectP;
-        })
-        .attr('height',function(d,i){
-          return 0; // 动画初始状态为0
-        })
-        .attr('fill','pink')
-        .transition()
-        .duration(1500)
-        .delay(function(d,i){
-          return i*200 // 每个柱子逐渐开始的效果
-        })
-        .attr('y',function(d,i){
-          return scaleY(d)
-        })
-        .attr('height',function(d,i){
-          return height - margin * 2 - scaleY(d)
+        gs.on("mouseover",function () {
+          d3.select(this) // 这里的this是包含：rect text 的节点
+            .transition()
+            .duration(200)
+            .delay(100)
+            .attr('fill','#306ade');
         })
 
-      // 添加鼠标划入划出事件
-      gs.on("mouseover",function () {
-        d3.select(this.firstChild) // 这里的this是包含：rect text 的节点
+        // 绘文字 + 过渡效果
+        gs.append('text')
+          .attr('x',function(d,i){
+            return scaleX(i) + rectP;
+          })
+          .attr('y',function(d,i){
+            return height - 2 * margin;
+          })
+          .attr('dx',function(d,i){
+            return -2;
+          })
+          .attr('dy',function(d,i){
+            return 20;
+          })
+          .text(function(d,i){
+            return this_.data2[i];
+          })
+          .attr('fill','green')
           .transition()
-          .duration(1000)
-          .delay(200)
-          .attr('fill','#306ade');
-      })
+          .duration(500)
+          .delay(function(d,i){
+            return i*200;
+          })
+          .attr('y',function(d,i){
+            return scaleY(d)
+          })
 
-      gs.on("mouseout",function () {
-        d3.select(this.firstChild)
-          .transition()
-          .duration(1000)
-          .delay(200)
-          .attr('fill','pink');
-      })
 
-      // 绘文字 + 过渡效果
-      gs.append('text')
-        .attr('x',function(d,i){
-          return scaleX(i) + rectP;
+        //update operation
+        gs.transition('update-transition')
+          .duration(500)
+          .attr('x',function(d,i){
+            return scaleX(i) + rectP/2;
+          })
+          .delay(function(d,i){
+            return i*200 // 每个柱子逐渐开始的效果
+          })
+          .attr('y',function(d,i){
+            return scaleY(d)
+          })
+          .attr('height',function(d,i){
+            return height - margin * 2 - scaleY(d)
+          })
+
+        //delete
+        gs.exit().transition('exit-transition')
+          .duration(500)
+          .attr('height', 0)
+          .attr('y', scaleY(0))
+          .attr('x', 0)
+          .remove()
+
+
+      // 删除加上
+      //   this.data.shift()
+      //   this.data2.shift()
+        // gs.data(this.data).exit(
+        //   .remove()
+        this.data.push(200000)
+        this.data.sort((a,b)=>{
+          return b-a
         })
-        .attr('y',function(d,i){
-          return height - 2 * margin;
-        })
-        .attr('dx',function(d,i){
-          return -2;
-        })
-        .attr('dy',function(d,i){
-          return 20;
-        })
-        .text(function(d,i){
-          return this_.data2[i];
-        })
-        .attr('fill','green')
-        .transition()
-        .duration(1500)
-        .delay(function(d,i){
-          return i*200;
-        })
-        .attr('y',function(d,i){
-          return scaleY(d)
-        })
+        console.log(this.data)
+        this.data2.push('瓦语')
+
+
+        await setTimeout(()=>{},50000)
+
+
+
+          // .remove()
+      },5000)
     },
   },
   created() {
-    this.icsv()
   },
   mounted() {
     this.draw();
