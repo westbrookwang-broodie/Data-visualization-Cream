@@ -68,7 +68,7 @@ export default {
       g.append('g').attr("transform", "translate(0,0)").call(axisY);
 
       let cnt = 0
-      setInterval(async ()=> {
+      setInterval(()=> {
         cnt+=1
         // 改变横坐标下电影标签
           axisX.tickFormat((d,i)=>{
@@ -78,18 +78,23 @@ export default {
 
 
 
-
       // 创建矩形分组
       const gs = g.selectAll('rect')
         .data(this.data)
         // .enter()
         // .append('g');
+      const gw = g.selectAll('.rr').selectAll('text').data(this.data)
 
 
 
         // 绘制矩形 + 过渡效果
         let rectP = 40; // 柱状图间距
-        gs.enter().append('g').
+        let gt = gs.enter().append('g').attr('class', 'rr')
+        let gp = gw.enter()
+
+
+
+        gt.
         append('rect')
           .attr('x', function(d,i){
             return scaleX(i) + rectP/2;
@@ -125,7 +130,7 @@ export default {
             .duration(200)
             .delay(100)
             .attr('fill','pink');
-          console.log(this.lastChild)
+
         })
         gs.on("mouseover",function () {
           d3.select(this) // 这里的this是包含：rect text 的节点
@@ -136,32 +141,50 @@ export default {
         })
 
         // 绘文字 + 过渡效果
-        gs.append('text')
+        // let gb = gs.append('g')
+        gp.append('text')
           .attr('x',function(d,i){
             return scaleX(i) + rectP;
           })
-          .attr('y',function(d,i){
-            return height - 2 * margin;
-          })
-          .attr('dx',function(d,i){
-            return -2;
-          })
-          .attr('dy',function(d,i){
-            return 20;
-          })
-          .text(function(d,i){
-            return this_.data2[i];
-          })
-          .attr('fill','green')
+          // .attr('y',function(d,i){
+          //   return scaleY(this_.data[i]);
+          // })
+        .text(function(d,i){
+          return this_.data2[i];
+        }).attr('fill','green')
           .transition()
-          .duration(500)
+
+          .duration(200)
           .delay(function(d,i){
             return i*200;
-          })
-          .attr('y',function(d,i){
-            return scaleY(d)
+          })          .attr('y',function(d,i){
+          return scaleY(this_.data[i])
+        })
+          .attr('height',function(d,i){
+            return height - margin * 2 - scaleY(d)
           })
 
+        gt.append('text')
+          .attr('x',function(d,i){
+            return scaleX(i) + rectP;
+          })
+          // .attr('y',function(d,i){
+          //   return scaleY(this_.data[i]);
+          // })
+          .text(function(d,i){
+            return this_.data2[i];
+          }).attr('fill','green')
+          .transition()
+
+          .duration(200)
+          .delay(function(d,i){
+            return i*200;
+          })          .attr('y',function(d,i){
+          return scaleY(this_.data[i])
+        })
+          .attr('height',function(d,i){
+            return height - margin * 2 - scaleY(d)
+          })
 
         //update operation
         gs.transition('update-transition')
@@ -179,6 +202,26 @@ export default {
             return height - margin * 2 - scaleY(d)
           })
 
+
+        gw.transition('update-transition')
+          .duration(500)
+          .attr('x',function(d,i){
+            return scaleX(i) + rectP;
+          })
+          .text(function(d,i){
+            return this_.data2[i]})
+          .delay(function(d,i){
+            return i*200 // 每个柱子逐渐开始的效果
+          })
+       .attr('y',function(d,i){
+        return scaleY(this_.data[i])
+      })
+          // .attr('y',function(d,i){
+          //   return scaleY(d)
+          // })
+          // .text(function(d,i){
+          //   return this_.data2[i]})
+
         //delete
         gs.exit().transition('exit-transition')
           .duration(500)
@@ -188,23 +231,27 @@ export default {
           .remove()
 
 
+        // gw.exit().transition('exit-transition')
+        //   .duration(500)
+        //   .attr('height', 0)
+        //   .attr('y', scaleY(0))
+        //   .attr('x', 0)
+        //   .remove()
+
+
       // 删除加上
       //   this.data.shift()
       //   this.data2.shift()
         // gs.data(this.data).exit(
         //   .remove()
-        this.data.push(200000)
+        this.data.push(2000)
         this.data.sort((a,b)=>{
           return b-a
         })
+        this.data.pop()
         console.log(this.data)
+        this.data2.shift()
         this.data2.push('瓦语')
-
-
-        await setTimeout(()=>{},50000)
-
-
-
           // .remove()
       },5000)
     },
