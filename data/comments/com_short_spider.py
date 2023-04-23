@@ -46,6 +46,7 @@ class Spider:
             return 0
         with open(path, 'r', encoding='utf-8') as f:
             lis = f.readlines()
+            # print(lis[-1].split('$'))
             if lis[-1].split('$')[0] == '599':
                 return 1
             else:
@@ -57,21 +58,39 @@ class Spider:
         bs = BeautifulSoup(res.text, 'lxml')
         return bs
 
-    # 消除空格
+    # 将列表data添加到大列表coll中
     def data_concat(self, coll, data):
         for item in data:
-            coll.append(item)
+            coll.append(item.replace('\n', ""))
         return coll
+
+    # 检查某页数据长度是否对应，有问题则返回-1，舍去该页数据，无问题则返回长度
+    def check_length_same(self, datalist):
+        b = len(set(datalist))
+        if b > 1:
+            print('invalid page: ' + datalist)
+            return -1
+        else:
+            return datalist[0]
 
     def run(self):
         print("-----Spider begin-----")
         path_list = ["most_pop_film", "most_score_film"]
         start_time = time.time()
         for ts in range(2):
-            id_list = self.get_id_list(path_list[ts]+'.csv')
+            id_list = self.get_id_list(path_list[ts] + '.csv')
+            # 每部电影
             for film_info in id_list:
-                output_path = self.filepath.format(path_list[ts], film_info[1])
+                # if film_info[0] != "1291543":
+                #     continue
+                finish_task = 0
+                output_path = self.filepath.format(path_list[ts], film_info[0])
+                exist_path = self.filepath.format(path_list[ts], film_info[1])
+                print("Film id: %s" % (film_info[0]))
                 if self.check_output(output_path):
+                    continue
+                if self.check_output(exist_path):
+                    os.rename(exist_path, output_path)
                     continue
                 url_list = self.make_url_list(film_info[0])
                 t = 0
@@ -82,44 +101,42 @@ class Spider:
                 movie_comments_vote = []  # 被点赞数
                 movie_comments_text = []  # 评论内容
 
-                print("Film id: %s" % (film_info[0]))
+                # 每页评论
                 for url in url_list:
                     page = self.res_decode(url)
-
-                    for i in range(20):
-                        movie_id.append(film_info[0])
-                        movie_title.append(film_info[1])
 
                     # 被点赞数
                     vote = page.find_all(class_="votes vote-count")
                     vote = re.findall('votes vote-count">(.*?)</span>', str(vote))
-                    movie_comments_vote = self.data_concat(movie_comments_vote, vote)
-
-                    info = page.find_all(class_='comment-info')
                     # 用户名
+                    info = page.find_all(class_='comment-info')
                     user = re.findall('href.*?/">(.*?)</a>', str(info))
-                    movie_comments_user = self.data_concat(movie_comments_user, user)
-
                     # 发布时间
                     c_time = page.find_all(class_='comment-time')
                     c_time = re.findall('title="(.*?)"', str(c_time))
-                    movie_comments_time = self.data_concat(movie_comments_time, c_time)
-
                     # 评论内容
                     text = page.find_all(class_='short')
                     text = re.findall('"short">((?:.|\n)*?)</span>', str(text))
-                    movie_comments_text = self.data_concat(movie_comments_text, text)
 
-                    print("page %d finish" % t)
+                    # 检查四项数据长度是否对应
+                    len_list = [len(vote), len(user), len(c_time), len(text)]
+                    # print(len_list)
+                    length = self.check_length_same(len_list)
+                    if length >= 0:
+                        # 单页数据添加进该部电影的数据list
+                        movie_comments_vote = self.data_concat(movie_comments_vote, vote)
+                        movie_comments_user = self.data_concat(movie_comments_user, user)
+                        movie_comments_time = self.data_concat(movie_comments_time, c_time)
+                        movie_comments_text = self.data_concat(movie_comments_text, text)
+                        for i in range(length):
+                            movie_id.append(film_info[0])
+                            movie_title.append(film_info[1])
+                        print("page %d finish" % t)
                     t += 1
                     time.sleep(random.random() * 3)
 
-                    # print("id: %d" % len(movie_id))
-                    # print("title: %d" % len(movie_title))
-                    # print("c user: %d" % len(movie_comments_user))
-                    # print("c time: %d" % len(movie_comments_time))
-                    # print("c vote: %d" % len(movie_comments_vote))
-                    # print("c text: %d" % len(movie_comments_text))
+                # print([len(movie_id), len(movie_title), len(movie_comments_user), len(movie_comments_time),
+                #        len(movie_comments_vote), len(movie_comments_text)])
 
                 dataframe = pd.DataFrame({
                     "movie_id": movie_id,
@@ -130,9 +147,11 @@ class Spider:
                     "comment_text": movie_comments_text
                 })
                 # 以$作为分隔符
-                dataframe.to_csv(self.filepath.format(path_list[ts], film_info[1]), encoding='utf-8', sep='$')
+                dataframe.to_csv(output_path, encoding='utf-8', sep='$')
                 end_time = time.time()
+                finish_task += 1
                 print("-----Spider of film %s finish at %f s-----" % (film_info[0], end_time - start_time))
+                print("Finished task: %d" % finish_task)
 
 
 if __name__ == '__main__':
