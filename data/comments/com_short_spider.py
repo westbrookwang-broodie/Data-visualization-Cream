@@ -41,9 +41,13 @@ class Spider:
         return url_list
 
     # 检测某电影是否已经爬完整，方便脚本中断重新爬取时跳过以节省时间，0就是没爬完
-    def check_output(self, path):
+    def check_output(self, path, good):
+        # 已存在以id命名的csv文件
         if not os.path.exists(path):
             return 0
+        # good 表示检测是否为以id命名的csv文件，若不是则重新检测文件完整性
+        if good:
+            return 1
         with open(path, 'r', encoding='utf-8') as f:
             lis = f.readlines()
             # print(lis[-1].split('$'))
@@ -77,19 +81,21 @@ class Spider:
         print("-----Spider begin-----")
         path_list = ["most_pop_film", "most_score_film"]
         start_time = time.time()
+        finish_task = 0
         for ts in range(2):
             id_list = self.get_id_list(path_list[ts] + '.csv')
             # 每部电影
             for film_info in id_list:
                 # if film_info[0] != "1291543":
                 #     continue
-                finish_task = 0
+                finish_task += 1
+                print("Begin task: %d" % finish_task)
                 output_path = self.filepath.format(path_list[ts], film_info[0])
                 exist_path = self.filepath.format(path_list[ts], film_info[1])
-                print("Film id: %s" % (film_info[0]))
-                if self.check_output(output_path):
+                print("Film id: %s   Film name: %s" % (film_info[0],film_info[1]))
+                if self.check_output(output_path, 1):
                     continue
-                if self.check_output(exist_path):
+                if self.check_output(exist_path, 0):
                     os.rename(exist_path, output_path)
                     continue
                 url_list = self.make_url_list(film_info[0])
@@ -149,7 +155,6 @@ class Spider:
                 # 以$作为分隔符
                 dataframe.to_csv(output_path, encoding='utf-8', sep='$')
                 end_time = time.time()
-                finish_task += 1
                 print("-----Spider of film %s finish at %f s-----" % (film_info[0], end_time - start_time))
                 print("Finished task: %d" % finish_task)
 
