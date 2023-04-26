@@ -18,7 +18,7 @@ class Spider:
             "Cookie": "ll=\"118282\"; bid=2FWA5hmFNE0; __gads=ID=b7838384056e8a41-221e0a9df0dc0015:T=1680440281:RT=1680440281:S=ALNI_MZ3Jn-AU5gmKvU0C1hKLIIODDaJmg; ct=y; __utmc=30149280; ap_v=0,6.0; __utma=30149280.915297433.1679663654.1681030236.1681054094.7; __utmb=30149280.0.10.1681054094; __utmz=30149280.1681054094.7.4.utmcsr=blog.csdn.net|utmccn=(referral)|utmcmd=referral|utmcct=/qq_44988175/article/details/127096889; __gpi=UID=00000bea5cf5b656:T=1680440281:RT=1681054153:S=ALNI_MafT6K0MFQTbHWnX16Y5WOqoqYjTQ; dbcl2=\"269613122:7WY2e3vQ9ac\"; ck=xi1N; frodotk_db=\"1aed5ac94973d37d50c8105bdc5b7a77\"; push_noty_num=0; push_doumail_num=0"
         }
         self.url = "https://movie.douban.com/subject/{}/comments?start={}&limit=20&status=P&sort=new_score"
-        self.filepath = "comments/{}/{}.csv"
+        self.filepath = "comments/short_comment/{}.csv"
 
     # 获取电影id和title列表,从两个整合过后的csv文件里获取
     def get_id_list(self, path):
@@ -42,19 +42,18 @@ class Spider:
 
     # 检测某电影是否已经爬完整，方便脚本中断重新爬取时跳过以节省时间，0就是没爬完
     def check_output(self, path, good):
-        # 已存在以id命名的csv文件
+        # 已存在以id命名的csv文件,不存在则返回0
         if not os.path.exists(path):
             return 0
         # good 表示检测是否为以id命名的csv文件，若不是则重新检测文件完整性
         if good:
-            return 1
-        with open(path, 'r', encoding='utf-8') as f:
-            lis = f.readlines()
-            # print(lis[-1].split('$'))
-            if lis[-1].split('$')[0] == '599':
-                return 1
-            else:
-                return 0
+            with open(path, 'r', encoding='utf-8') as f:
+                lis = f.readlines()
+                # print(lis[-1].split('$'))
+                if len(lis) < 3:
+                    return 1
+                else:
+                    return 0
 
     # 获取单页短评内容，交由后续解析
     def res_decode(self, url):
@@ -65,7 +64,12 @@ class Spider:
     # 将列表data添加到大列表coll中
     def data_concat(self, coll, data):
         for item in data:
-            coll.append(item.replace('\n', ""))
+            # 防止影响分隔符
+            item = item.replace('$', '')
+            item = item.replace(' ', '')
+            item = item.replace('\n', '')
+            item = item.replace('\r', '')
+            coll.append(item)
         return coll
 
     # 检查某页数据长度是否对应，有问题则返回-1，舍去该页数据，无问题则返回长度
@@ -86,19 +90,19 @@ class Spider:
             id_list = self.get_id_list(path_list[ts] + '.csv')
             # 每部电影
             for film_info in id_list:
-                # if film_info[0] != "1291543":
+                # if film_info[0] != "30282387":
                 #     continue
                 finish_task += 1
                 print("Begin task: %d" % finish_task)
-                output_path = self.filepath.format(path_list[ts], film_info[0])
-                exist_path = self.filepath.format(path_list[ts], film_info[1])
-                print("Film id: %s   Film name: %s" % (film_info[0],film_info[1]))
-                if self.check_output(output_path, 1):
-                    continue
-                if self.check_output(exist_path, 0):
-                    os.rename(exist_path, output_path)
-                    continue
+                output_path = self.filepath.format(film_info[0])
+                print("Film id: %s   Film name: %s" % (film_info[0], film_info[1]))
+                # if self.check_output(output_path, 1):
+                #     continue
+                # if self.check_output(exist_path, 0):
+                #     os.rename(exist_path, output_path)
+                #     continue
                 url_list = self.make_url_list(film_info[0])
+
                 t = 0
                 movie_id = []
                 movie_title = []
@@ -123,6 +127,7 @@ class Spider:
                     # 评论内容
                     text = page.find_all(class_='short')
                     text = re.findall('"short">((?:.|\n)*?)</span>', str(text))
+                    text = text
 
                     # 检查四项数据长度是否对应
                     len_list = [len(vote), len(user), len(c_time), len(text)]
@@ -137,9 +142,12 @@ class Spider:
                         for i in range(length):
                             movie_id.append(film_info[0])
                             movie_title.append(film_info[1])
-                        print("page %d finish" % t)
-                    t += 1
+
+                        print("page %d finish" % (t // 20))
+                    t += length
                     time.sleep(random.random() * 3)
+                    if length < 20:
+                        break
 
                 # print([len(movie_id), len(movie_title), len(movie_comments_user), len(movie_comments_time),
                 #        len(movie_comments_vote), len(movie_comments_text)])
@@ -156,6 +164,7 @@ class Spider:
                 dataframe.to_csv(output_path, encoding='utf-8', sep='$')
                 end_time = time.time()
                 print("-----Spider of film %s finish at %f s-----" % (film_info[0], end_time - start_time))
+                print("共 %d 条短评" % t)
                 print("Finished task: %d" % finish_task)
 
 
