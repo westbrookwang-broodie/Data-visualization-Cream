@@ -40,7 +40,7 @@ export default {
       let margin = 20;
       let svg = d3.select('svg');
       svg.attr('width',4000);
-      svg.attr('height',2000);
+      svg.attr('height',4000);
       let width = svg.attr('width')
       let height = svg.attr('height')
       let g = svg.append('g')
@@ -54,7 +54,7 @@ export default {
 
       // 定义 y 轴比例尺
       let scaleY = d3.scaleLinear()
-        .domain([0,d3.max(this.data)])
+        .domain([0,700000])
         .range([height - margin * 2,0]);
       // 上边距30；注意：range 后面跟的参数0，放在第二位 因为 y轴正方向向下
 
@@ -68,7 +68,8 @@ export default {
       g.append('g').attr("transform", "translate(0,0)").call(axisY);
 
       let cnt = 0
-      setInterval(()=> {
+      let year = 2013
+      setInterval(async ()=> {
         cnt+=1
         // 改变横坐标下电影标签
           axisX.tickFormat((d,i)=>{
@@ -244,17 +245,37 @@ export default {
       //   this.data2.shift()
         // gs.data(this.data).exit(
         //   .remove()
-        this.data.push(2000)
-        this.data.sort((a,b)=>{
-          return b-a
-        })
-        this.data.pop()
-        console.log(this.data)
-        this.data2.shift()
-        this.data2.push('瓦语')
+        // this.data.push(2000)
+        // this.data.sort((a,b)=>{
+        //   return b-a
+        // })
+        // this.data.pop()
+        // console.log(this.data)
+        // this.data2.shift()
+        // this.data2.push('瓦语')
+        await this.updated(year)
+        year += 1
+        if (year == 2024){
+          year = 2013
+        }
+        // console.log(this.data)
           // .remove()
       },5000)
     },
+    async updated(year){
+      let update = this.data
+      let this_ = this
+      await d3.csv('src/data/movie'+year+'box.csv',function (data1) {
+        update.push(+data1['票房（万元）'])
+        update.sort((a,b)=>{
+          return b-a
+        })
+        update.pop()
+        this_.data2.push(data1['电影'])
+        this_.data2.shift()
+      })
+      this.data = update
+    }
   },
   created() {
   },

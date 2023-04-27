@@ -2,6 +2,7 @@ import { DashboardIcon } from 'tdesign-icons-vue-next';
 import { shallowRef } from 'vue';
 import Layout from '@/layouts/index.vue';
 import index from '@/pages/my-page/index.vue';
+import Cloud from '@/pages/my-page/Cloud.vue';
 
 export default [
   // {
@@ -59,5 +60,14 @@ export default [
       title: '我的页面',
     }
   },
+  {
+    path: "/cloud",
+    name: 'Cloud',
+    title: "cloud",
+    component: Cloud,
+    meta: {
+      title: '词云',
+    }
+  }
 
 ];
