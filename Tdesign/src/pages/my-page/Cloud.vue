@@ -1,5 +1,17 @@
 <template>
   <div id="word-cloud" style="">
+    <t-select
+      autoWidth
+      borderless
+      size="large" @change="generate" placeholder="流浪地球">
+      <t-option key="少年的你" label="少年的你" value="少年的你" />
+      <t-option key="我不是药神" value="我不是药神">我不是药神</t-option>
+      <t-option key="流浪地球" label="流浪地球" value="流浪地球" />
+      <t-option key="绿皮书" label="绿皮书" value="绿皮书" />
+      <t-option key="西虹市首富" label="西虹市首富" value="西虹市首富" />
+      <t-option key="让子弹飞" label="让子弹飞" value="让子弹飞" />
+    </t-select>
+    <div id="world-cloud-graph"></div>
   </div>
 </template>
 
@@ -19,6 +31,8 @@ var targetTypeMap = []
 var weaponTypeMap = []
 var myWordCloud
 var svg
+var graph
+var cloud1
 var rot = 0
 // var d = []
 async function getData(filename){
@@ -35,6 +49,58 @@ async function getData(filename){
 
 function re() {
   var fill = d3.scaleOrdinal(d3.schemeTableau10);
+
+
+  // d3.pie()
+  var svg = d3.select("#app").select("#word-cloud").select("#world-cloud-graph").append("svg")
+    .attr("width", 1000)
+    .attr("height", 1000)
+    .append("g")
+    .attr("transform", "translate(500,500)")
+
+
+  graph = svg.selectAll("text")
+  cloud1 = graph.data(data);
+  function draw(words) {
+    console.log(words)
+    graph = svg.selectAll("text")
+    cloud1 = graph.data(words)
+      cloud1.enter().append("text")
+      .style("font-size", function (d) {
+        return d.count + "px";
+      })
+      .style("font-family", "KaiTi")
+      .style("fill", function (d, i) {
+        return fill(i);
+      })
+      .attr("text-anchor", "middle")
+      .attr("transform", function (d) {
+        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+      })
+      .text(function (d) {
+        return d.word;
+      });
+
+    cloud1
+      .transition()
+      .duration(100)
+      .attr('font-size', d => d.count)
+      .attr("transform", function(d) {
+         return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+      })
+      .text(function (d) {
+        return d.word;
+      })
+      .style("fill-opacity", 1);
+
+    // cloud1.
+    // exit()
+    //   .transition()
+    //   .duration(500)
+    //   .style('fill-opacity', 1e-6)
+    //   .attr('font-size', 1)
+    //   .remove();
+  }
   cloud().size([1000, 1000])
     .words(data, d => d.word)
     .padding(1)
@@ -46,33 +112,19 @@ function re() {
     })
     .on("end", draw)
     .start();
+  return {
+    update: function(data) {
+      // cloud.clear()
+      cloud().size([1000,1000])
+        .words(data)
+        .text((d)=>d.word)
+        .padding(1)
+        .rotate(() => ~~(Math.random() * 2) * 90 * ((rot++) % 2))
+        .fontSize((d)=>d.count)
+        .on("end", draw)
+        .start();
 
-
-  function draw(words) {
-    console.log(words)
-    d3.pie()
-    d3.select("#app").select("#word-cloud").append("svg")
-      .attr("width", 1000)
-      .attr("height", 1000)
-      .append("g")
-      .attr("transform", "translate(500,500)")
-      .selectAll("text")
-      .data(words)
-      .enter().append("text")
-      .style("font-size", function (d) {
-        return d.count + "px";
-      })
-         .style("font-family", "KaiTi")
-      .style("fill", function (d, i) {
-        return fill(i);
-      })
-      .attr("text-anchor", "middle")
-      .attr("transform", function (d) {
-        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-      })
-      .text(function (d) {
-        return d.word;
-      });
+    }
   }
 }
 // getData('words_流浪地球.csv')
@@ -154,17 +206,21 @@ export default {
   },
   methods:{
     init: function () {
-      getData('words_流浪地球.csv')
-    }
+      getData('words_霸王别姬.csv')
+    },
+    generate: async function (item){
+      await getData('words_'+item.toString()+'.csv')
+      myWordCloud.update(data)
+    },
   },
   created() {
     // this.init()
   },
   async mounted() {
-    this.init()
+     this.init()
     setTimeout(() => {
-      re()
-      console.log(data)
+      myWordCloud =re()
+      console.log(myWordCloud)
     },500)
 
 
