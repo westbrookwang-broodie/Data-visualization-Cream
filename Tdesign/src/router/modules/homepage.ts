@@ -3,6 +3,8 @@ import { shallowRef } from 'vue';
 import Layout from '@/layouts/index.vue';
 import index from '@/pages/my-page/index.vue';
 import Cloud from '@/pages/my-page/Cloud.vue';
+import graph from '@/pages/my-page/graph.vue';
+import chart from '@/pages/my-page/chart.vue';
 
 export default [
   // {
@@ -68,6 +70,24 @@ export default [
     meta: {
       title: '词云',
     }
-  }
+  },
+  {
+    path: "/graph",
+    name: 'graph',
+    title: "graph",
+    component: graph,
+    meta: {
+      title: '关系图',
+    }
+  },
+  {
+    path: "/chart",
+    name: 'chart',
+    title: "chart",
+    component: chart,
+    meta: {
+      title: '图表',
+    }
+  },
 
 ];
