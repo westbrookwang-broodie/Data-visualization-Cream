@@ -36,6 +36,7 @@ class CommentAnalysis:
     '''
     返回id列表
     '''
+
     def get_id_list(self, path):
         id_list = []
         with open(path, 'r', encoding='utf-8') as f:
@@ -47,12 +48,12 @@ class CommentAnalysis:
                 id_list.append((film_id, film_title))
         return id_list
 
-
     '''
     将存放短评的csv文件中的短评提取出来，转换为对应的txt文件，方便分词部分使用
     film_id: 电影id
     n: n=0 返回所有短评的str, n=1返回短评列表
     '''
+
     def com2txt(self, film_id, n):
         com_path = self.path_short_com.format(film_id)
         txt_path = self.path_short_txt.format(film_id)
@@ -77,6 +78,7 @@ class CommentAnalysis:
     '''
     读取存放短评的csv文件，返回split过后的二维数组
     '''
+
     def com2list(self, film_id):
         com_path = self.path_short_com.format(film_id)
         coms_list = []
@@ -93,6 +95,7 @@ class CommentAnalysis:
     '''    
     jieba分词，返回分词结果list
     '''
+
     def test_jieba_list(self, txt, film_id):
         words = jieba.cut(txt)
         res = []
@@ -127,6 +130,7 @@ class CommentAnalysis:
     '''    
     文本情感分析，基于snownlp库，分析影评的情感分数是否符合预期
     '''
+
     def text_motion(self, text):
         path = "../most_pop_film.csv"
         id_list = self.get_id_list(path)
@@ -139,8 +143,16 @@ class CommentAnalysis:
     '''    
     文本情感分析，基于snownlp库，分析影评的情感分数是否极端化
     '''
-    def text_motion_ex(self, text):
 
+    def text_motion_ex(self, f_id):
+        com_list = self.com2list(f_id)
+        com_num = len(com_list)
+        # sw_score = []
+        res = 0
+        for com in com_list:
+            res += SnowNLP(com).sentiments
+        res = 0.8 * res / com_num
+        return res
         pass
 
     # 主方法
@@ -151,6 +163,7 @@ class CommentAnalysis:
             pass
         # 情感趋向分析
         elif args[0] == '1':
+            
             pass
         # 情感极性分析
         elif args[0] == '2':
@@ -158,7 +171,6 @@ class CommentAnalysis:
         else:
             print("Invalid input of test code.")
         print("---------- Finish ----------")
-
 
 
 if __name__ == '__main__':
@@ -178,5 +190,3 @@ if __name__ == '__main__':
     #     print('{0:<15}{1:>5}'.format(word, count))
     # ca.test_wordcloud(jb_lis, f_id)
     # os.remove("comments/short_comment_txt/{}.csv".format(film_id))
-
-
