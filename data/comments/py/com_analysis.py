@@ -133,13 +133,14 @@ class CommentAnalysis:
         for f_id, f_title in id_list:
             print("电影名称： {}".format(f_title))
             f_csv = self.com2list(f_id)
-            
+
         pass
 
     '''    
     文本情感分析，基于snownlp库，分析影评的情感分数是否极端化
     '''
     def text_motion_ex(self, text):
+
         pass
 
     # 主方法
