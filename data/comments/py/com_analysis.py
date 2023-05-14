@@ -1,10 +1,10 @@
 # 词频统计
 import os
 import jieba
-import nltk
 import time
 from snownlp import SnowNLP
 import wordcloud as wc
+import pandas as pd
 
 
 def get_stopwords():
@@ -26,7 +26,10 @@ def get_stopwords():
 class CommentAnalysis:
 
     def __init__(self):
-        # 存放
+        # 存放电影名单及相关信息文件的位置
+        # 数据格式为[movie_id,movie_name,movie_vote,movie_voter,movie_5star,movie_4star,movie_3star,movie_2star,movie_1star,movie_shortcom_num]
+        self.path_film_info = "../comments/film_info.csv"
+        # 存放短评csv文件的位置，数据格式为[movie_id,movie_title,comment_user,comment_time,comment_vote,comment_text]
         self.path_short_com = "../comments/short_comment/{}.csv"
         # 存放短评txt文件的位置，供jieba分词使用，分析完成后删除文件
         self.path_short_txt = "../comments/short_comment_txt/{}.txt"
@@ -34,24 +37,44 @@ class CommentAnalysis:
         self.path_short_pic = "../comments/short_comment_pic/"
 
     '''
-    返回id列表
+    返回电影id列表
+    flag = 0, 文件来源为comments/film_info.csv
+    flag = 1, 文件来源为most_pop_film.csv和most_score_film.csv
     '''
 
-    def get_id_list(self, path):
+    def get_id_list(self, path, flag):
         id_list = []
         with open(path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             for line in lines[1:]:
                 film_info = line.split(',')
-                film_id = film_info[-1][:-1]
-                film_title = film_info[0]
+                if flag:
+                    film_id = film_info[-1][:-1]
+                    film_title = film_info[0]
+                else:
+                    film_id = film_info[1]
+                    film_title = film_info[2]
                 id_list.append((film_id, film_title))
         return id_list
 
     '''
+    读取film_info.csv文件，返回列表
+    '''
+
+    def get_film_info(self):
+        res_list = []
+        with open(self.path_film_info, 'r', encoding='utf-8') as file:
+            info_list = file.readlines()[1:]
+            for info in info_list:
+                res = info.split(',')
+                res[-1] = res[-1][:-1]
+                res_list.append(res)
+        return res_list
+
+    '''
     将存放短评的csv文件中的短评提取出来，转换为对应的txt文件，方便分词部分使用
-    film_id: 电影id
-    n: n=0 返回所有短评的str, n=1返回短评列表
+    n=0 返回所有短评的str，不含分隔符
+    n=1 返回短评列表
     '''
 
     def com2txt(self, film_id, n):
@@ -63,31 +86,35 @@ class CommentAnalysis:
         if not os.path.exists(txt_path):
             with open(com_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()[1:]
+                line_len = len(lines)
                 for line in lines:
                     t = line.split('$')[-1]
                     coms += (t + '$')
                     coms_list.append(t)
+                coms += str(line_len)
             with open(txt_path, 'w', encoding='utf-8') as txt:
                 txt.write(coms)
         else:
             with open(txt_path, 'r', encoding='utf-8') as txt:
                 coms = txt.read()
                 coms_list = coms.split('$')[:-1]
+        # return coms_list if n else coms.replace('$', '')
         return coms_list if n else coms
 
     '''
     读取存放短评的csv文件，返回split过后的二维数组
+    [movie_id,movie_title,comment_user,comment_time,comment_vote,comment_text]
     '''
 
     def com2list(self, film_id):
         com_path = self.path_short_com.format(film_id)
         coms_list = []
-        if not os.path.exists(com_path):
+        if os.path.exists(com_path):
             with open(com_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()[1:]
                 for line in lines:
                     coms = line.split('$')
-                    coms_list.append(coms)
+                    coms_list.append(coms[1:])
         else:
             print("{}: file not exist".format(com_path))
         return coms_list
@@ -96,7 +123,7 @@ class CommentAnalysis:
     jieba分词，返回分词结果list
     '''
 
-    def test_jieba_list(self, txt, film_id):
+    def test_jieba_list(self, txt):
         words = jieba.cut(txt)
         res = []
         # 去停用词
@@ -127,33 +154,96 @@ class CommentAnalysis:
         path = self.path_short_pic + "{}.png"
         w.to_file(path.format(film_id))
 
+    # 计算len_score加权值，基于单部电影评论列表中评论长度排位（短评上限为350字）
+    def cal_len_score(self, com_len):
+        len_score = []
+        for lr in com_len:
+            if lr < 20:
+                len_score.append(1)
+            elif lr < 50:
+                len_score.append(1.03)
+            elif lr < 99:
+                len_score.append(1.05)
+            elif lr < 150:
+                len_score.append(1.09)
+            elif lr > 250:
+                len_score.append(1.15)
+            else:
+                len_score.append(1)
+        return len_score
+
     '''    
-    文本情感分析，基于snownlp库，分析影评的情感分数是否符合预期
+    文本情感期望型分析，基于snownlp库，分析影评的情感分数是否符合预期,计算公式见二期答辩ppt
+    return: 列表，存储格式为(film_id, score_ex)的tuple
     '''
 
-    def text_motion(self, text):
-        path = "../most_pop_film.csv"
-        id_list = self.get_id_list(path)
-        for f_id, f_title in id_list:
-            print("电影名称： {}".format(f_title))
-            f_csv = self.com2list(f_id)
+    def text_motion_nor(self):
+        film_ids = []
+        film_nor_score = []
+        film_nlp_ex = []  # 电影评论平均nlp情感分数
+        film_nlp_s1 = []
+        film_nlp_s2 = []
+        res_list = self.get_film_info()
 
-        pass
+        for info in res_list:
+            # f_id, f_name, f_vote, f_voter, f_5star, f_4star, f_3star, f_2star, f_1star, f_scom_num = info[1], \
+            #     info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10] 防止格式化
+            f_id, f_name, f_vote, f_voter, f_5star, f_4star, f_3star, f_2star, f_1star, f_scom_num = info[1], \
+                info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10]
+            print("电影id: %s   电影名称: %s" % (f_id, f_name))
+            t1 = 0.4  # 参数1
+            t2 = 6  # 参数2
+            sw_score = []  # 单条评论的nlp情感分数
+            com_vote = []  # 单条评论的点赞数
+            com_len = []  # 单条评论的长度
+            total_com = int(f_scom_num)  # 电影总评论数
+            total_vote = float(f_vote)  # 电影总评分
+
+            # 获取每条评论的情感分数、点赞数、评论长度
+            com_list = self.com2list(f_id)
+
+            for com in com_list:
+                sw = SnowNLP(com[5]).sentiments
+                sw_score.append(sw)
+                com_vote.append(float(com[4]))
+                com_len.append(len(com[5]) - 1)
+
+            len_score = self.cal_len_score(com_len)
+            s1 = 0.0
+            for i in range(len(com_list)):
+                s1 += sw_score[i] * (1 + t1 * com_vote[i] / total_com) * len_score[i]
+
+
+            s2 = total_vote / t2
+            total_score = 0.8 * (s1 / len(sw_score) * 10) + 0.2 * s2
+            print("Total expectation score: %f" % total_score)
+            film_ids.append(f_id)
+            film_nor_score.append(total_score)
+            film_nlp_ex.append(sum(sw_score)/len(com_list))
+            film_nlp_s1.append(s1)
+            film_nlp_s2.append(s2)
+
+        df = pd.DataFrame({
+            "movie_id": film_ids,
+            "movie_nor_score": film_nor_score,
+            "nor_avg_swscore": film_nlp_ex,
+            "s1": film_nlp_s1,
+            "s2": film_nlp_s2
+        })
+        df.to_csv("../comments/film_nor_score.csv", encoding='utf-8')
+        return 0
+
 
     '''    
-    文本情感分析，基于snownlp库，分析影评的情感分数是否极端化
+    文本情感极端性分析，基于snownlp库，分析影评的情感分数是否极端化
+    计算公式见二期答辩ppt
+    return: 列表，存储格式为(film_id, score_ex)的tuple
     '''
 
-    def text_motion_ex(self, f_id):
-        com_list = self.com2list(f_id)
-        com_num = len(com_list)
-        # sw_score = []
-        res = 0
-        for com in com_list:
-            res += SnowNLP(com).sentiments
-        res = 0.8 * res / com_num
-        return res
+    def text_motion_ex(self):
+
         pass
+        return 0
 
     # 主方法
     def run(self, args):
@@ -163,8 +253,7 @@ class CommentAnalysis:
             pass
         # 情感趋向分析
         elif args[0] == '1':
-            
-            pass
+            score_ex = self.text_motion_nor()
         # 情感极性分析
         elif args[0] == '2':
             pass
@@ -175,18 +264,8 @@ class CommentAnalysis:
 
 if __name__ == '__main__':
     # 测试类型，0为分词和词云，1为情感分析
-    test_code = input("Test Num: ")
+    # test_code = input("Test Num: ")
     # 可输入具体的电影id，不指定则输入0
-    test_f_id = input("Film id: ")
+    # test_f_id = input("Film id: ")
     ca = CommentAnalysis()
-    ca.run([test_code, test_f_id])
-
-    # f_id = '30282387'
-    # ts = ca.com2txt(f_id, 0)
-    # jb_lis = ca.test_jieba_list(ts, f_id)
-    # col = ca.collect_count(jb_lis)
-    # for i in range(20):
-    #     word, count = col[i]
-    #     print('{0:<15}{1:>5}'.format(word, count))
-    # ca.test_wordcloud(jb_lis, f_id)
-    # os.remove("comments/short_comment_txt/{}.csv".format(film_id))
+    ca.run('1')

@@ -1,3 +1,5 @@
-li = [('1', 'as'), ('2', 'sad'), ('3', 7)]
-for a,b in li:
-    print(a)
+lis = [1,2,3,4,5]
+a,b,c = lis[0],lis[1]
+print(b)
+
+
