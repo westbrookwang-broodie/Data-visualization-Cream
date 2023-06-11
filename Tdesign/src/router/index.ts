@@ -1,85 +1,72 @@
-import { useRoute, createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
-import uniq from 'lodash/uniq';
-
-const env = import.meta.env.MODE || 'development';
-
-// 导入homepage相关固定路由
-const homepageModules = import.meta.glob('./modules/**/homepage.ts', { eager: true });
-
-// 导入modules非homepage相关固定路由
-const fixedModules = import.meta.glob('./modules/**/!(homepage).ts', { eager: true });
-
-// 其他固定路由
-const defaultRouterList: Array<RouteRecordRaw> = [
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   component: () => import('@/pages/login/index.vue'),
-  // },
-  {
-    path: '/',
-    redirect: '/dashboard/base',
-  },
-];
-// 存放固定路由
-export const homepageRouterList: Array<RouteRecordRaw> = mapModuleRouterList(homepageModules);
-export const fixedRouterList: Array<RouteRecordRaw> = mapModuleRouterList(fixedModules);
-
-export const allRoutes = [...homepageRouterList, ...fixedRouterList, ...defaultRouterList];
-
-// 固定路由模块转换为路由
-export function mapModuleRouterList(modules: Record<string, unknown>): Array<RouteRecordRaw> {
-  const routerList: Array<RouteRecordRaw> = [];
-  Object.keys(modules).forEach((key) => {
-    // @ts-ignore
-    const mod = modules[key].default || {};
-    const modList = Array.isArray(mod) ? [...mod] : [mod];
-    routerList.push(...modList);
-  });
-  return routerList;
-}
-
-export const getRoutesExpanded = () => {
-  const expandedRoutes = [];
-
-  fixedRouterList.forEach((item) => {
-    if (item.meta && item.meta.expanded) {
-      expandedRoutes.push(item.path);
-    }
-    if (item.children && item.children.length > 0) {
-      item.children
-        .filter((child) => child.meta && child.meta.expanded)
-        .forEach((child: RouteRecordRaw) => {
-          expandedRoutes.push(item.path);
-          expandedRoutes.push(`${item.path}/${child.path}`);
-        });
-    }
-  });
-  return uniq(expandedRoutes);
-};
-
-export const getActive = (maxLevel = 3): string => {
-  const route = useRoute();
-  if (!route.path) {
-    return '';
-  }
-  return route.path
-    .split('/')
-    .filter((_item: string, index: number) => index <= maxLevel && index > 0)
-    .map((item: string) => `/${item}`)
-    .join('');
-};
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import index from '../views/Moviebox.vue'
+import Part3View from '@/views/AnalyzingView.vue'
+import Part32View from '@/views/AnalyzingKind.vue'
+import Part31View from '@/views/AnalyzingYear.vue'
+import Part33View from '@/views/AnalyzingDirector.vue'
+import Cloud from '@/views/WordCloud.vue'
+import Part34View from '@/views/AnalyzingActor.vue'
+import HeatMap from "@/views/HeatMap.vue";
+import HomePage from '@/views/HomePage.vue'
 
 const router = createRouter({
-  history: createWebHistory(env === 'site' ? '/starter/vue-next/' : import.meta.env.VITE_BASE_URL),
-  routes: allRoutes,
-  scrollBehavior() {
-    return {
-      el: '#app',
-      top: 0,
-      behavior: 'smooth',
-    };
-  },
-});
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/relation',
+      name: 'relation',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/RelationChart.vue')
+    },
+    {
+      path:'/moviebox',
+      name:'moviebox',
+      component: index
+    },
+    {
+      path:'/cloud',
+      name:'cloud',
+      component:Cloud
+    },
+    {
+      path:'/heatMap',
+      name:'heatmap',
+      component:HeatMap
+    },
+    {
+      path:'/part3',
+      name:'part3',
+      component: Part3View
+    },
+    {
+      path:'/part31',
+      name:'part31',
+      component:Part31View
+    },
+    {
+      path:'/part32',
+      name:'part32',
+      component:Part32View
+    },
+    {
+      path:'/part33',
+      name:'part33',
+      component:Part33View
+    },
+    {
+      path:'/part34',
+      name:'part34',
+      component:Part34View
+    }
+  ]
+})
 
-export default router;
+export default router

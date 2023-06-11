@@ -1,16 +1,14 @@
-import { createApp } from 'vue';
+import { createApp } from 'vue'
+import App from './App.vue';
 import TDesign from 'tdesign-vue-next';
 import 'tdesign-vue-next/es/style/index.css';
-import { store } from './store';
-import router from './router';
-import '@/style/index.less';
-import './permission';
-import App from './App.vue';
+import router from './router'
+
+import './assets/main.css'
 
 const app = createApp(App);
 
 app.use(TDesign);
-app.use(store);
-app.use(router);
+app.use(router)
 
-app.mount('#app');
+app.mount('#app')
