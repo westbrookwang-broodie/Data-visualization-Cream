@@ -5,6 +5,7 @@ import time
 from snownlp import SnowNLP
 import wordcloud as wc
 import pandas as pd
+import numpy as np
 
 
 def get_stopwords():
@@ -59,6 +60,7 @@ class CommentAnalysis:
 
     '''
     读取film_info.csv文件，返回列表
+    获得[movie_id,movie_name,movie_vote,movie_voter,movie_5-1star,movie_shortcom_num]
     '''
 
     def get_film_info(self):
@@ -172,6 +174,14 @@ class CommentAnalysis:
                 len_score.append(1)
         return len_score
 
+    # 把vote的含%百分比str转换为小于1的小数
+    def cal_vote(self, vote_list):
+        res = []
+        for vote in vote_list:
+            vote = vote[:-1]
+            n = float(vote)/100
+            res.append(n)
+        return res
     '''    
     文本情感期望型分析，基于snownlp库，分析影评的情感分数是否符合预期,计算公式见二期答辩ppt
     return: 列表，存储格式为(film_id, score_ex)的tuple
@@ -213,9 +223,10 @@ class CommentAnalysis:
             for i in range(len(com_list)):
                 s1 += sw_score[i] * (1 + t1 * com_vote[i] / total_com) * len_score[i]
 
-
             s2 = total_vote / t2
             total_score = 0.8 * (s1 / len(sw_score) * 10) + 0.2 * s2
+            if total_score > 10:
+                total_score = 10
             print("Total expectation score: %f" % total_score)
             film_ids.append(f_id)
             film_nor_score.append(total_score)
@@ -241,7 +252,56 @@ class CommentAnalysis:
     '''
 
     def text_motion_ex(self):
+        film_ids = []
+        film_vote = []
+        film_ex_score = []
+        film_comment_num = []  # 电影评论数
+        film_nlp_ex = []
+        film_vote_ex = []
+        res_list = self.get_film_info()
 
+        for info in res_list:
+            # f_id, f_name, f_vote, f_voter, f_5star, f_4star, f_3star, f_2star, f_1star, f_scom_num = info[1], \
+            #     info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10] 防止格式化
+            f_id, f_name, f_vote, f_voter, f_5star, f_4star, f_3star, f_2star, f_1star, f_scom_num = info[1], \
+                   info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10]
+            print("电影id: %s   电影名称: %s" % (f_id, f_name))
+            votes = [f_5star, f_4star, f_3star, f_2star, f_1star]
+            votes_list = self.cal_vote(votes)
+
+            t1, t2 = 0.8, 0.2
+            sw_score = []  # 单条评论的nlp情感分数
+            total_com = int(f_scom_num)  # 电影总评论数
+            total_vote = float(f_vote)  # 电影总评分
+
+            # 获取每条评论的情感分数、点赞数、评论长度
+            com_list = self.com2list(f_id)
+            for com in com_list:
+                sw = SnowNLP(com[5]).sentiments
+                sw_score.append(sw)
+
+            sw_var = np.var(sw_score)  # 情感分数的方差
+            vote_var = np.var(votes_list)  # 评分的方差
+
+            total_score = t1 * sw_var + t2 * vote_var
+            print("Total variance score: %f" % total_score)
+
+            film_ids.append(f_id)
+            film_vote.append(total_vote)
+            film_ex_score.append(total_score)
+            film_comment_num.append(total_com)
+            film_nlp_ex.append(sw_var)
+            film_vote_ex.append(vote_var)
+
+        df = pd.DataFrame({
+            "movie_id": film_ids,
+            "movie_vote": film_vote,
+            "movie_ex_score": film_ex_score,
+            "movie_shortcom_num": film_comment_num,
+            "movie_nlp_var": film_nlp_ex,
+            "movie_vote_var": film_vote_ex
+        })
+        df.to_csv("../comments/film_ex_score.csv", encoding='utf-8')
         pass
         return 0
 
@@ -253,10 +313,10 @@ class CommentAnalysis:
             pass
         # 情感趋向分析
         elif args[0] == '1':
-            score_ex = self.text_motion_nor()
+            score_nor = self.text_motion_nor()
         # 情感极性分析
         elif args[0] == '2':
-            pass
+            score_ex = self.text_motion_ex()
         else:
             print("Invalid input of test code.")
         print("---------- Finish ----------")
@@ -268,4 +328,4 @@ if __name__ == '__main__':
     # 可输入具体的电影id，不指定则输入0
     # test_f_id = input("Film id: ")
     ca = CommentAnalysis()
-    ca.run('1')
+    ca.run('2')
