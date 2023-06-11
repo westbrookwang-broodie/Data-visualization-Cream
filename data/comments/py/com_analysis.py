@@ -302,7 +302,6 @@ class CommentAnalysis:
             "movie_vote_var": film_vote_ex
         })
         df.to_csv("../comments/film_ex_score.csv", encoding='utf-8')
-        pass
         return 0
 
     # 主方法
@@ -328,4 +327,4 @@ if __name__ == '__main__':
     # 可输入具体的电影id，不指定则输入0
     # test_f_id = input("Film id: ")
     ca = CommentAnalysis()
-    ca.run('2')
+    ca.run('1')

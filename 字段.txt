@@ -1,0 +1,13 @@
+film_nor_score.csv
+movie_id: 电影id
+movie_nor_score: 情感期望分析 电影分数，越大越正面
+movie_avg_score: 电影短评情感分数均值 基于snownlp库
+s1,s2: 分段结果，仅供记录用
+
+film_ex_score.csv
+movie_id：同上
+movie_vote: 电影总评分
+movie_ex_score: 极端期望分析分数，越大越极端
+movie_shortcom_num: 电影短评总数，非600
+movie_nlp_var: 情感分数方差
+movie_vote_var: 总评分分数
