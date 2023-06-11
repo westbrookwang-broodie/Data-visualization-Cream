@@ -5,19 +5,18 @@
 </template>
 <style scoped>
 #atlasMain{
-  width:2000px;
-  height:2000px;
-  margin-left: 300px;
+    width:1500px;
+    height:700px;
 }
 </style>
 
 <script>
 import * as echarts from 'echarts';
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import dataJson from './data.json'
 
 export default {
-  name: "graph",
+  name: "RelationChart",
   data() {
     return {
       data: []
@@ -25,7 +24,7 @@ export default {
 
   },
   created() {
-      this.$nextTick(function () {
+    this.$nextTick(function () {
       this.initChart()
     })
   },
@@ -88,7 +87,7 @@ export default {
         myChart.setOption(option);
       };
       ls(dataJson)
-    option && myChart.setOption(option);
+      option && myChart.setOption(option);
 
     }
   }

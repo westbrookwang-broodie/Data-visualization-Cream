@@ -5,9 +5,9 @@
 </template>
 <style scoped>
 #atlasMain{
-  width:2000px;
-  height:1000px;
-  margin-left: 300px;
+    width:800px;
+    height:600px;
+    margin-left: 30px;
 }
 </style>
 <script>
@@ -22,7 +22,7 @@ var myChart
 var year = 2000
 
 export default {
-  name: "chart",
+  name: "index",
   data() {
     return {
       data: []
@@ -51,7 +51,7 @@ export default {
           inverse: true,
           animationDuration: 300,
           animationDurationUpdate: 300,
-          max: 5 // only the largest 3 bars will be displayed
+          max: 6 // only the largest 3 bars will be displayed
         },
         series: [
           {
@@ -89,10 +89,9 @@ export default {
         animationEasing: 'linear',
         animationEasingUpdate: 'linear'
       };
-
       async function icsv(year) {
         const d = []
-        await d3.csv('src/data/movie'+ year.toString()+'box.csv',function (data1) {
+        await d3.csv('./src/data/movie'+ year.toString()+'box.csv',function (data1) {
           data2.push(data1)
         })
         data2.sort((a, b)=>{
