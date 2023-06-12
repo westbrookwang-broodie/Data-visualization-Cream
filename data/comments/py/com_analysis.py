@@ -189,12 +189,14 @@ class CommentAnalysis:
 
     def text_motion_nor(self):
         film_ids = []
+        film_names = []
         film_nor_score = []
         film_nlp_ex = []  # 电影评论平均nlp情感分数
         film_nlp_s1 = []
         film_nlp_s2 = []
         res_list = self.get_film_info()
 
+        t = 0
         for info in res_list:
             # f_id, f_name, f_vote, f_voter, f_5star, f_4star, f_3star, f_2star, f_1star, f_scom_num = info[1], \
             #     info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10] 防止格式化
@@ -227,8 +229,11 @@ class CommentAnalysis:
             total_score = 0.8 * (s1 / len(sw_score) * 10) + 0.2 * s2
             if total_score > 10:
                 total_score = 10
-            print("Total expectation score: %f" % total_score)
+            print("%d Total expectation score: %f" % (t, total_score))
+            t += 1
+
             film_ids.append(f_id)
+            film_names.append(f_name)
             film_nor_score.append(total_score)
             film_nlp_ex.append(sum(sw_score)/len(com_list))
             film_nlp_s1.append(s1)
@@ -236,6 +241,7 @@ class CommentAnalysis:
 
         df = pd.DataFrame({
             "movie_id": film_ids,
+            "movie_name": film_names,
             "movie_nor_score": film_nor_score,
             "nor_avg_swscore": film_nlp_ex,
             "s1": film_nlp_s1,
@@ -253,6 +259,7 @@ class CommentAnalysis:
 
     def text_motion_ex(self):
         film_ids = []
+        film_names = []
         film_vote = []
         film_ex_score = []
         film_comment_num = []  # 电影评论数
@@ -260,6 +267,7 @@ class CommentAnalysis:
         film_vote_ex = []
         res_list = self.get_film_info()
 
+        i = 0
         for info in res_list:
             # f_id, f_name, f_vote, f_voter, f_5star, f_4star, f_3star, f_2star, f_1star, f_scom_num = info[1], \
             #     info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10] 防止格式化
@@ -284,9 +292,11 @@ class CommentAnalysis:
             vote_var = np.var(votes_list)  # 评分的方差
 
             total_score = t1 * sw_var + t2 * vote_var
-            print("Total variance score: %f" % total_score)
+            print("%d Total variance score: %f" % (i, total_score))
+            i += 1
 
             film_ids.append(f_id)
+            film_names.append(f_name)
             film_vote.append(total_vote)
             film_ex_score.append(total_score)
             film_comment_num.append(total_com)
@@ -295,6 +305,7 @@ class CommentAnalysis:
 
         df = pd.DataFrame({
             "movie_id": film_ids,
+            "movie_name": film_names,
             "movie_vote": film_vote,
             "movie_ex_score": film_ex_score,
             "movie_shortcom_num": film_comment_num,
@@ -328,3 +339,4 @@ if __name__ == '__main__':
     # test_f_id = input("Film id: ")
     ca = CommentAnalysis()
     ca.run('1')
+    ca.run('2')
