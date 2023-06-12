@@ -9,7 +9,6 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to='/'>Home</RouterLink>
       <RouterLink to='/moviebox'>MovieBox</RouterLink>
       <RouterLink to='/cloud'>WordCloud</RouterLink>
-      <RouterLink to='/relation'>Relation</RouterLink>
       <RouterLink to='/part3'>Analyzing</RouterLink>
     </nav>
     <RouterView />

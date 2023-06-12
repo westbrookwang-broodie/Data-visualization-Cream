@@ -1,17 +1,20 @@
 <template>
-  <div>
-    <p>This is Part33</p>
-    <div id='main2' style='width: 700px; height: 800px;'></div>
-    <div id='main3' style='width: 1500px; height: 800px;'></div>
+  <div >
+    <div id='main0' style='width: 500px; height: 500px;'></div>
+    <div id='main1' style='width: 1000px; height: 600px;'></div>
+    <Part34View></Part34View>
   </div>
+
 </template>
 
 <script>
 import * as echarts from 'echarts'
 import * as Papa from 'papaparse'
+import Part34View from "@/views/AnalyzingActor.vue";
 
 export default {
   name: 'Part33View',
+  components: {Part34View},
   data() {
     return {
       director:[],
@@ -33,7 +36,7 @@ export default {
         this.data31 = result.data.map(row => row['导演'])
         this.data41 = result.data.map(row => row['百分比'])
 
-        const chartDom1 = document.getElementById('main2')
+        const chartDom1 = document.getElementById('main0')
         const myChart1 = echarts.init(chartDom1)
 
         let option1 = {
@@ -59,8 +62,13 @@ export default {
             {
               name: 'Access From',
               type: 'pie',
-              radius: '50%',
+              radius: ['40%','70%'],
               data: this.data21,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+              },
               label: {
                 formatter: (params) => {
                   return this.data11[params.dataIndex] + '部'
@@ -94,7 +102,7 @@ export default {
         this.frequency = result.data.map(row => row['频次'])
         this.score = result.data.map(row => row['平均评分'])
 
-        const chartDom2 = document.getElementById('main3')
+        const chartDom2 = document.getElementById('main1')
         const myChart2 = echarts.init(chartDom2)
 
         let option2 = {

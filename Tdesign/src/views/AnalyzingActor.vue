@@ -1,8 +1,7 @@
 <template>
   <div>
-    <p>This is Part34</p>
-    <div id='main2' style='width: 700px; height: 800px;'></div>
-    <div id='main3' style='width: 6000px; height: 800px;'></div>
+    <div id='main2' style='width: 500px; height: 500px;'></div>
+    <div id='main3' style='width: 1500px; height: 600px'></div>
     <t-button ghost shape="round"
               size="large">
       <RouterLink to='/part31'>年份</RouterLink>
@@ -13,12 +12,12 @@
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part33'>导演</RouterLink>
+      <RouterLink to='/part33'>人员</RouterLink>
     </t-button>
-    <t-button ghost shape="round"
-              size="large">
-      <RouterLink to='/part34'>演员</RouterLink>
-    </t-button>
+<!--    <t-button ghost shape="round"-->
+<!--              size="large">-->
+<!--      <RouterLink to='/part34'>演员</RouterLink>-->
+<!--    </t-button>-->
   </div>
 </template>
 
@@ -75,8 +74,13 @@ export default {
             {
               name: 'Access From',
               type: 'pie',
-              radius: '50%',
+              radius: ['40%','70%'],
               data: this.data21,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+              },
               label: {
                 formatter: (params) => {
                   return this.data11[params.dataIndex] + '部'

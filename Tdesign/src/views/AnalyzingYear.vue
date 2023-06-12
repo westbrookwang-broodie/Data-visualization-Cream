@@ -1,6 +1,29 @@
 <template>
   <div>
     <div id='main' style='width: 1200px; height: 500px;'></div>
+    <div style='margin-top: 10px;font-size: 16px;line-height: 2'>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      根据已知数据，我们生成了如上关于年份对电影票房影响的柱状图。
+      横坐标表示了年份，纵坐标则利用不同色彩和形式表示了电影频次，电影总票房，受欢迎电影频次三组数据。
+      <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      通过观察我们发现，自2000-2019年中国电影市场整体升幅较大,电影频次及票房基数都有显著的提升，整体趋势向上。
+      然而，2020年-2022年，电影市场却出现了低迷期。这样的低迷与新型冠状病毒疫情造成的种种打击密不可分。
+      相信度过危机后的电影市场将迅速恢复。
+
+    </div>
+    <t-button ghost shape="round"
+              size="large">
+      <RouterLink to='/part31'>年份</RouterLink>
+    </t-button>
+    <t-button ghost shape="round"
+              size="large">
+      <RouterLink to='/part32'>题材</RouterLink>
+    </t-button>
+    <t-button ghost shape="round"
+              size="large">
+      <RouterLink to='/part33'>人员</RouterLink>
+    </t-button>
   </div>
 
 </template>
