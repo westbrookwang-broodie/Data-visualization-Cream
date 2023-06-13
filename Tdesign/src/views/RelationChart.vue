@@ -42,8 +42,6 @@ export default {
         });
         option = {
           title: {
-            text: 'Les Miserables',
-            subtext: 'Default layout',
             top: 'bottom',
             left: 'right'
           },

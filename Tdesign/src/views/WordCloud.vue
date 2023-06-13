@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div id="word-cloud" style= "display: flex">
     <div style="width: 500px">
     <h1 aria-label="电影" style="font-size: 50px; font-family: KaiTi">电影</h1>
@@ -40,6 +41,11 @@
     </div>
     <div id="world-cloud-graph" style="margin-top: 20%"></div>
   </div>
+    <div style="margin-top: 20px">
+      <h2 style="font-weight: bold; left: 25%; font-style: italic">情感分析热图</h2>
+      <HeapMap></HeapMap>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,6 +53,7 @@ import * as d3 from 'd3';
 // import Papa from 'papaparse';
 import * as cloud from 'd3-cloud';
 import { select } from 'd3'
+import HeapMap from "@/views/HeatMap.vue";
 const width = 600
 const height = 400
 var sizeMap = [100, 60, 60, 50, 50, 40, 40, 30]
@@ -165,6 +172,7 @@ function re() {
 }
 export default {
   name: "Cloud",
+  components: {HeapMap},
   data(){
     return{
       data: [{ text: 'dsadas',

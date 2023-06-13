@@ -3,11 +3,22 @@
     <h2 style="left: 40%;margin-bottom: 50px;font-weight: bold; font-style: italic">导演对电影的影响</h2>
     <div style="display: flex; margin-bottom: 100px">
 
-      <div id='main0' style='width: 500px; height: 500px;'></div>
+      <div id='main0' style='width: 500px; height: 500px; margin-top: 100px'></div>
       <div style="width: 900px;">
         <div id='main1' style='width: 800px; height: 350px;'></div>
-        <div style="margin-left: 80px">
-          通过分析两百部受欢迎电影中导演的出现频次及评分，我们得到了以上两幅图。
+        <div style="margin-left: 70px;font-size: 16px;line-height: 2;width: 700px">
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          通过分析两百部受欢迎电影中导演的出现频次及评分，我们得到了以上饼状图及折线图。
+          <br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          观察饼状图我们不难发现，只有极少数导演能做到高品质地生产大量受欢迎的影片，
+          其中最为突出的有张艺谋，周星驰，宁浩，冯小刚等家喻户晓的导演。
+          而大部分导演都仅有一两部广受赞誉的影片。
+          <p/>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          折线图数据与饼状图紧密相连，我们可以通过饼状图很直观地在折线图中找到对应导演受欢迎作品的平均评分。
+          通过观察我们可以很直观地发现，折线图中的频率折线与平均分折线并无明显关系。
+
         </div>
       </div>
     </div>

@@ -78,6 +78,12 @@ export default {
 //       });
     let this_ = this;
     option = {
+      // title:{
+      //   text: '情感分析热图',
+      //   // subtext: 'By ecStat.regression',
+      //   left: 'center',
+      // },
+
       tooltip: {
         position: 'top',
         formatter: function (i) {

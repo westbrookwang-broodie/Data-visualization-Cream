@@ -1,9 +1,11 @@
 <template>
-  <t-select id="iu" placeholder="最受欢迎" v-model="type" autoWidth @change="icsv2(type)">
-    <t-option key="pop" label="最受欢迎" value="most_pop_filmray" />
-    <t-option key="score" label="评分最高" value="most_score_filmray" />
-  </t-select>
-  <div id="main1" style='width: 700px; height: 800px; margin-left: 00px'>
+  <div style="width: 700px;">
+    <t-select id="iu" placeholder="最受欢迎" v-model="type" autoWidth @change="icsv2(type)">
+      <t-option key="pop" label="最受欢迎" value="most_pop_filmray"/>
+      <t-option key="score" label="评分最高" value="most_score_filmray"/>
+    </t-select>
+    <div id="ray" style='width: 600px; height: 750px;'>
+    </div>
   </div>
 </template>
 
@@ -22,13 +24,13 @@ export default {
       mychart: null,
       option: null,
       movie_name: [],
-      movies:[],
+      movies: [],
     }
   },
   methods: {
     async icsv(name1) {
       let this_ = this
-      await d3.csv('./src/data/' + name1 + '.csv',function (data1) {
+      await d3.csv('./src/data/' + name1 + '.csv', function (data1) {
         this_.movie_name.push(data1.movie_title)
         let tmp = {}
         tmp.name = data1.movie_title
@@ -52,7 +54,7 @@ export default {
       let this_ = this
       this.movie_name = []
       this.movies = []
-      await d3.csv('./src/data/' + name1 + '.csv',function (data1) {
+      await d3.csv('./src/data/' + name1 + '.csv', function (data1) {
         this_.movie_name.push(data1.movie_title)
         let tmp = {}
         tmp.name = data1.movie_title
@@ -70,7 +72,7 @@ export default {
       console.log(this.movies)
 
       let selec = {}
-      for (let i=0;i<20;i++){
+      for (let i = 0; i < 20; i++) {
         selec[this.movie_name[i]] = false
       }
       var option
@@ -90,12 +92,12 @@ export default {
         radar: {
           // shape: 'circle',
           indicator: [
-            { name: '电影评分', max: 10 },
-            { name: '电影时长', max: 180 },
-            { name: '电影评分人数', max: 2200000 },
-            { name: '电影评论人数', max: 500000 },
-            { name: '电影想看人数', max: 500000 },
-            { name: '电影看过人数', max: 4000000 }
+            {name: '电影评分', max: 10},
+            {name: '电影时长', max: 180},
+            {name: '电影评分人数', max: 2200000},
+            {name: '电影评论人数', max: 500000},
+            {name: '电影想看人数', max: 500000},
+            {name: '电影看过人数', max: 4000000}
           ]
         },
         series: [
@@ -120,7 +122,7 @@ export default {
     }
   },
   async mounted() {
-    var chartDom = document.getElementById('main1');
+    var chartDom = document.getElementById('ray');
     var myChart = echarts.init(chartDom);
     this.mychart = myChart
     var option;
@@ -129,7 +131,7 @@ export default {
     console.log(this.movie_name)
 
     let selec = {}
-    for (let i=0;i<20;i++){
+    for (let i = 0; i < 20; i++) {
       selec[this.movie_name[i]] = false
     }
 
@@ -148,12 +150,12 @@ export default {
       radar: {
         // shape: 'circle',
         indicator: [
-          { name: '电影评分', max: 10 },
-          { name: '电影时长', max: 160 },
-          { name: '电影评分人数', max: 2200000 },
-          { name: '电影评论人数', max: 720000 },
-          { name: '电影想看人数', max: 900000 },
-          { name: '电影看过人数', max: 6000000 }
+          {name: '电影评分', max: 10},
+          {name: '电影时长', max: 160},
+          {name: '电影评分人数', max: 2200000},
+          {name: '电影评论人数', max: 720000},
+          {name: '电影想看人数', max: 900000},
+          {name: '电影看过人数', max: 6000000}
         ]
       },
       series: [

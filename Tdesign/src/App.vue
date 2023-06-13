@@ -7,10 +7,9 @@ import { RouterLink, RouterView } from 'vue-router'
   <div>
     <nav>
       <RouterLink to='/'>主页</RouterLink>
-      <RouterLink to='/moviebox'>近20年票房趋势图</RouterLink>
-      <RouterLink to='/cloud'>词云图</RouterLink>
-      <RouterLink to='/part3'>对于电影具体分析</RouterLink>
-      <RouterLink to="/heatMap">情感分析</RouterLink>
+      <RouterLink to='/moviebox'>票房分析</RouterLink>
+      <RouterLink to='/cloud'>评论分析</RouterLink>
+      <RouterLink to='/part3'>优秀电影特征分析总结</RouterLink>
     </nav>
     <RouterView />
   </div>
