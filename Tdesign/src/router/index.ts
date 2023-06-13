@@ -9,6 +9,7 @@ import Cloud from '@/views/WordCloud.vue'
 import Part34View from '@/views/AnalyzingActor.vue'
 import HeatMap from "@/views/HeatMap.vue";
 import HomePage from '@/views/HomePage.vue'
+import RayView from "@/views/RayView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path:'/heatMap',
       name:'heatmap',
       component:HeatMap
+    },
+    {
+      path:'/ray',
+      name:'RayView',
+      component:RayView
     },
     {
       path:'/part3',

@@ -7,6 +7,9 @@
 
 <script>
 import * as echarts from 'echarts'
+import * as d3 from "d3";
+import math from "lodash";
+var data2 = []
 
 export default {
   name: "HeapMap",
@@ -30,10 +33,19 @@ export default {
     }
 
   },
-  mounted() {
+  async mounted() {
     const chartDom = document.getElementById('main1');
     const myChart = echarts.init(chartDom);
     var option;
+
+    await icsv();
+    console.log(data2)
+
+    for(let i=0;i<168;i++){
+      this.data[i][2] = math.ceil(data2[i].movie_vote_var)
+    }
+    console.log(this.data)
+
 
 // prettier-ignore
 //     const hours = [
@@ -52,9 +64,19 @@ export default {
 //       .map(function (item) {
 //         return [item[1], item[0], item[2] || '-'];
 //       });
+    let this_ = this;
     option = {
       tooltip: {
-        position: 'top'
+        position: 'top',
+        formatter: function (i) {
+          console.log(i);
+          let x  = i.value[0];
+          let y = i.value[1];
+          let index = x + y*24;
+          i.name = data2[index].movie_name
+          // i.name = data2.
+          return i.name;
+        }
       },
       grid: {
         height: '50%',
@@ -76,7 +98,7 @@ export default {
       },
       visualMap: {
         min: 0,
-        max: 10,
+        max: 16,
         calculable: true,
         orient: 'horizontal',
         left: 'center',
@@ -84,7 +106,7 @@ export default {
       },
       series: [
         {
-          name: 'Punch Card',
+          name: 'movie emotion',
           type: 'heatmap',
           data: this.data,
           label: {
@@ -93,7 +115,7 @@ export default {
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
+              shadowColor: 'rgba(250,17,17,0.5)'
             }
           }
         }
@@ -104,6 +126,28 @@ export default {
   // mounted() {
   //
   // }
+}
+
+async function icsv() {
+  await d3.csv('./src/data/film_ex_score.csv',function (data1) {
+    data1.movie_vote_var *= 100
+    data2.push(data1)
+  })
+  data2.sort((a, b)=>{
+    return +b.movie_vote_var - +a.movie_vote_var
+  })
+  data2 = data2.slice(0,168)
+  data2.sort(randomsort)
+  // for (let i=0;i<20;i++){
+  //   data[i] = data2[i].box;
+  //   name[i] = data2[i].name
+  // }
+}
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min) // +1是保证可以取到上限值
+}
+function randomsort(a, b) {
+  return Math.random() > .5 ? -1 : 1;
 }
 
 
