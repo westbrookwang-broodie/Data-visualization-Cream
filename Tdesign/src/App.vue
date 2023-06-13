@@ -6,10 +6,11 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <div>
     <nav>
-      <RouterLink to='/'>Home</RouterLink>
-      <RouterLink to='/moviebox'>MovieBox</RouterLink>
-      <RouterLink to='/cloud'>WordCloud</RouterLink>
-      <RouterLink to='/part3'>Analyzing</RouterLink>
+      <RouterLink to='/'>主页</RouterLink>
+      <RouterLink to='/moviebox'>近20年票房趋势图</RouterLink>
+      <RouterLink to='/cloud'>词云图</RouterLink>
+      <RouterLink to='/part3'>对于电影具体分析</RouterLink>
+      <RouterLink to="/heatMap">情感分析</RouterLink>
     </nav>
     <RouterView />
   </div>

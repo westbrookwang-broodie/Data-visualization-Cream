@@ -7,30 +7,30 @@
     <div class="view">
       <transition :name="'slide_bottomToTop'">
         <div v-show="active ===1" class="block red" style="padding: -15px" onclick="play('slide_leftToRight')">
-          <h1 class="box1" v-show="active ===1">Here is our visualizing data masterPiece.</h1>
-          <h2 class="ii" v-show="active ===1" style="margin: -10px">Seperated into four modules:   </h2>
+          <h1 class="box1" v-show="active ===1">关于电影的数据可视化作品</h1>
+          <h2 class="ii" v-show="active ===1" style="margin: -10px">我们分成四类进行讨论:   </h2>
           <a v-show="active ===1" style="padding: -20px">
-            <router-link :to="{path: '/moviebox'}">Box Office</router-link>
+            <router-link :to="{path: '/moviebox'}">票房趋势图</router-link>
             ,
           </a>
           <br>
           <a v-show="active ===1">
-            <router-link :to="{path: '/cloud'}">WorldCloud</router-link>
+            <router-link :to="{path: '/cloud'}">词云图</router-link>
             ,
           </a>
           <br>
           <a v-show="active ===1">
-            <router-link :to="{path: '/relation'}">Relation</router-link>
+            <router-link :to="{path: '/part3'}">关于电影具体分析</router-link>
             ,
           </a>
           <br>
           <a v-show="active===1">
-            <router-link :to="{path: '/part3'}">Part3</router-link>
+            <router-link :to="{path: '/heatMap'}">情感分析</router-link>
             .
           </a>
           <br>
           <span></span>
-          <h1 class="box2" v-show="active ===1">Analyze the DATA</h1>
+          <h1 class="box2" v-show="active ===1">来分析数据</h1>
         </div>
       </transition>
       <transition :name="transName">
