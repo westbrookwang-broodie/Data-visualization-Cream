@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id='main2' style='width: 500px; height: 500px;'></div>
-    <div id='main3' style='width: 1500px; height: 600px'></div>
+    <div id='main3' style='margin-left:-50px;width: 1500px; height: 400px'></div>
     <t-button ghost shape="round"
               size="large">
       <RouterLink to='/part31'>年份</RouterLink>
@@ -53,12 +53,15 @@ export default {
 
         let option1 = {
           title: {
-            text: 'Referer of a Website',
-            subtext: 'Fake Data',
-            left: 'center'
+            text: '最受欢迎的两百部电影——演员分布饼图',
+            left: 'center',
+            textStyle: {
+              color: 'gray'
+            }
           },
           tooltip: {
             trigger: 'item',
+            position:'right',
             formatter: (params) => {
               return this.data11[params.dataIndex] + '部受欢迎电影: <br/>' +
                 '频次: ' + this.data21[params.dataIndex] + '<br/>' +
@@ -123,8 +126,11 @@ export default {
             left: '10%'
           },
           title:{
-            text:"导演对电影的影响",
-            left: 'center'
+            text:"演员电影频次及平均评分统计图",
+            left: 'center',
+            textStyle: {
+              color: 'gray'
+            }
           },
           brush: {
             toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
@@ -139,6 +145,7 @@ export default {
             }
           },
           tooltip: {
+            trigger: 'axis'
           },
           xAxis: {
             data: this.actor,

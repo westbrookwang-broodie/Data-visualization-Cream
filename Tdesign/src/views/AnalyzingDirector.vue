@@ -1,7 +1,18 @@
 <template>
-  <div >
-    <div id='main0' style='width: 500px; height: 500px;'></div>
-    <div id='main1' style='width: 1000px; height: 600px;'></div>
+  <div style="margin-left: -50px;">
+    <h2 style="left: 40%;margin-bottom: 50px;font-weight: bold; font-style: italic">导演对电影的影响</h2>
+    <div style="display: flex; margin-bottom: 100px">
+
+      <div id='main0' style='width: 500px; height: 500px;'></div>
+      <div style="width: 900px;">
+        <div id='main1' style='width: 800px; height: 350px;'></div>
+        <div style="margin-left: 80px">
+          通过分析两百部受欢迎电影中导演的出现频次及评分，我们得到了以上两幅图。
+        </div>
+      </div>
+    </div>
+
+    <h2 style="left: 40%;margin-bottom: 50px;font-weight: bold; font-style: italic">演员对电影的影响</h2>
     <Part34View></Part34View>
   </div>
 
@@ -17,9 +28,9 @@ export default {
   components: {Part34View},
   data() {
     return {
-      director:[],
-      frequency:[],
-      score:[],
+      director: [],
+      frequency: [],
+      score: [],
       data11: [],
       data21: [],
       data31: [],
@@ -41,12 +52,15 @@ export default {
 
         let option1 = {
           title: {
-            text: 'Referer of a Website',
-            subtext: 'Fake Data',
-            left: 'center'
+            text: '最受欢迎的两百部电影——导演分布饼图',
+            left: 'center',
+            textStyle: {
+              color: 'gray'
+            }
           },
           tooltip: {
             trigger: 'item',
+            position: 'right',
             formatter: (params) => {
               return this.data11[params.dataIndex] + '部受欢迎电影: <br/>' +
                 '频次: ' + this.data21[params.dataIndex] + '<br/>' +
@@ -62,7 +76,7 @@ export default {
             {
               name: 'Access From',
               type: 'pie',
-              radius: ['40%','70%'],
+              radius: ['40%', '70%'],
               data: this.data21,
               itemStyle: {
                 borderRadius: 10,
@@ -107,12 +121,15 @@ export default {
 
         let option2 = {
           legend: {
-            data: ['频次','平均评分'],
+            data: ['频次', '平均评分'],
             left: '10%'
           },
-          title:{
-            text:"导演对电影的影响",
-            left: 'center'
+          title: {
+            text: "导演电影频次及平均评分统计图",
+            left: 'center',
+            textStyle: {
+              color: 'gray'
+            }
           },
           brush: {
             toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
@@ -127,13 +144,14 @@ export default {
             }
           },
           tooltip: {
+            trigger: 'axis'
           },
           xAxis: {
             data: this.director,
             name: '年',
-            axisLine: { onZero: true },
-            splitLine: { show: false },
-            splitArea: { show: false }
+            axisLine: {onZero: true},
+            splitLine: {show: false},
+            splitArea: {show: false}
           },
           yAxis: {
             name: ''
