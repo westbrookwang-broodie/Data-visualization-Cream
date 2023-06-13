@@ -2,10 +2,12 @@
   <div>
     <div style="display: flex">
     <div id='main1' style='width:800px;height: 800px;'></div>
-    <div style='width: 500px;margin-top: 100px;font-size: 16px;line-height: 2'>
+    <div style='width: 400px;margin-top: 100px;font-size: 16px;line-height: 2'>
+      &nbsp;&nbsp;&nbsp;&nbsp;
       通过分析中国最受欢迎的两百部电影的所属类别情况（每部电影可归属多个类别），
       我们发现剧情，喜剧，动作，爱情类的电影在中国市场受到了十分广泛的喜爱和认同，其次是奇幻、犯罪、悬疑类别的电影。
       <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;
       如果想制作一部口碑良好，受观众认可的电影，可以从以上的几个类别入手研究。
     </div>
     </div>
@@ -86,7 +88,7 @@ export default {
             {
               name: 'Access From',
               type: 'pie',
-              radius: ['25%', '80%'],
+              radius: ['20%', '70%'],
               center: ['50%', '50%'],
               data: this.data2,
               roseType: 'radius',
@@ -107,7 +109,7 @@ export default {
                   color: 'gray'
                 },
                 smooth: 0.2,
-                length: 10,
+                length: 1,
                 length2: 20
               },
               itemStyle: {

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="margin-bottom: 10px">
     <div id='main' style='width: 1200px; height: 500px;'></div>
-    <div style='margin-top: 10px;font-size: 16px;line-height: 2'>
+    <div style='font-size: 16px;line-height: 2;margin-bottom: 60px'>
       &nbsp;&nbsp;&nbsp;&nbsp;
       根据已知数据，我们生成了如上关于年份对电影票房影响的柱状图。
       横坐标表示了年份，纵坐标则利用不同色彩和形式表示了电影频次，电影总票房，受欢迎电影频次三组数据。
