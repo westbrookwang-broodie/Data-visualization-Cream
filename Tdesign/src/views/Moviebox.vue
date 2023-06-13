@@ -1,6 +1,14 @@
 <template>
-  <div>
-    <div id="atlasMain"></div>
+  <div style="display: flex">
+    <div id="atlasMain" style="width: 800px;"></div>
+    <div style='width:500px;margin-top: 100px;font-size: 16px;line-height: 2'>
+      时光如梭，而电影票房的动态却凝聚着岁月的痕迹。在这个页面上，我们带你踏上一段时间之旅，从2000年到2022年，
+      探索每年的前几名电影票房。
+      <br/>
+      这个动态图将展示着过去二十多年中每年票房冠军的电影，让你亲眼目睹经典之作的辉煌崛起。
+      透过数据的视角，你将发现票房的起伏和变化，揭示出影响力瞬息万变的电影市场。无论是商业大片的崛起，还是突破性的独立电影，
+      这个动态图将带你领略电影票房的壮丽风景线，并让你更加了解电影产业的发展历程和成功之道。
+    </div>
   </div>
 </template>
 <style scoped>
