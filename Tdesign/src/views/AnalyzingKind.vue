@@ -1,23 +1,22 @@
 <template>
   <div>
-    <p>This is Part32</p>
     <div id='main1' style='width: 700px; height: 800px;'></div>
     <RelationChart></RelationChart>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part31'>年份</RouterLink>
+      <RouterLink to='/part31'>Year</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part32'>题材</RouterLink>
+      <RouterLink to='/part32'>Theme</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part33'>导演</RouterLink>
+      <RouterLink to='/part33'>Director</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part34'>演员</RouterLink>
+      <RouterLink to='/part34'>Actor</RouterLink>
     </t-button>
   </div>
 </template>
@@ -53,17 +52,16 @@ import RelationChart from '@/views/RelationChart.vue'
 
         let option = {
           title: {
-            text: 'Referer of a Website',
-            subtext: 'Fake Data',
+            text: 'Top 200 popular movie types',
             left: 'center'
           },
           tooltip: {
             trigger: 'item',
             formatter: (params) => {
               return this.data1[params.dataIndex] + ': <br/>' +
-                '频次: ' + this.data2[params.dataIndex] + '<br/>'+
-                '百分比: '+ this.data4[params.dataIndex] + '%<br/>'+
-                '平均分: ' + this.data3[params.dataIndex];
+                'Frequency: ' + this.data2[params.dataIndex] + '<br/>'+
+                'Percentage: '+ this.data4[params.dataIndex] + '%<br/>'+
+                'Avg Score: ' + this.data3[params.dataIndex];
             },
           },
           legend: {

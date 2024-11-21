@@ -1,31 +1,32 @@
 <template>
   <div id="word-cloud" style= "display: flex">
     <div style="width: 500px">
-    <h1 aria-label="电影" style="font-size: 50px; font-family: KaiTi">电影</h1>
+    <h1 aria-label="Movies" style="font-size: 50px; font-family: KaiTi">Movies</h1>
     <div class="letter svelte-1icc79m"><p class="svelte-1icc79m">
 <!--      <span class="sr-only">电影</span> -->
-      <span class="tagline is-del">是镜头语言<del>能表达一些平时不敢表达的东西.</del><ins class="svelte-1icc79m is-visible"></ins></span>
-      <span class="popular svelte-1icc79m is-visible">你肯定看过
+  <span class="tagline is-del">It is the lens language<del>that can express things that we dare not express in ordinary times.</del><ins class="svelte-1icc79m is-visible"></ins></span>
+      <span class="popular svelte-1icc79m is-visible">You must have seen
     		<a onclick="generate('霸王别姬')">
-    			<span>霸王别姬</span></a>
-				<img src="src/assets/img_6.png" alt="story thumbnail">它探讨了情感、性别和文化等多重主题。另外，
+    			<span>Farewell My Concubine</span></a>
+				<img src="src/assets/img_6.png" alt="story thumbnail">It explores multiple themes such as emotions, gender, and culture. In addition,
     		<a onclick="generate('我不是药神')">
-    			<span>我不是药神</span></a>
-				<img src="src/assets/img_1.png" alt="story thumbnail"> 通过一个药品销售员的故事，揭示了中国医疗体系中的现实问题。
+    			<span>Dying to Survive</span></a>
+				<img src="src/assets/img_1.png" alt="story thumbnail"> reveals the realities of China's healthcare system through the story of a drug dealer.
     		<a onclick="generate('少年的你')">
-    			<span>少年的你</span></a>
-				<img src="src/assets/img_2.png" alt="story thumbnail">以青春成长为主线，深刻反映了当代社会中的青少年问题。
-    </span> <span class="personal svelte-1icc79m is-visible">黑色幽默的经典之作
+    			<span>Better Days</span></a>
+				<img src="src/assets/img_2.png" alt="story thumbnail"> focuses on youth growth and deeply reflects issues among teenagers in contemporary society.
+    </span> <span class="personal svelte-1icc79m is-visible">A classic of dark humor
     		<a onclick="generate('让子弹飞')">
-    			<span>让子弹飞</span></a>
-				<img src="src/assets/img_3.png" alt="story thumbnail">获得了广泛赞誉。
+    			<span>Let the Bullets Fly</span></a>
+				<img src="src/assets/img_3.png" alt="story thumbnail"> has received widespread acclaim.
     		<a onclick="generate('西虹市首富')">
-    			<span>西虹市首富</span></a>
-				<img src="src/assets/img_4.png" alt="story thumbnail">是一部现实主义喜剧，通过对“富豪梦”的嘲讽，深刻探讨了人性的弱点。
+    			<span>Hello Mr. Billionaire</span></a>
+				<img src="src/assets/img_4.png" alt="story thumbnail"> is a realist comedy that deeply explores human weaknesses through satire of the "billionaire dream".
     		<a onclick="generate('绿皮书')">
-    			<span>绿皮书</span></a>
-				<img src="src/assets/img_2.png" alt="story thumbnail">是一部温情感人的励志片，描绘了一个黑人钢琴家和他的意大利裔司机之间的不凡旅程。</span>
-      <span class="welcome svelte-1icc79m is-visible">这些优秀的电影作品，在各自领域均有突出表现，值得观众们品味、欣赏和探索。</span></p></div>
+    			<span>Green Book</span></a>
+				<img src="src/assets/img_2.png" alt="story thumbnail"> is a heartwarming and inspirational film that depicts the extraordinary journey between a black pianist and his Italian-American driver.</span>
+      <span class="welcome svelte-1icc79m is-visible">These excellent films have outstanding performances in their respective fields and are worth savoring, appreciating, and exploring by audiences.</span></p></div>
+
 <!--    <t-select-->
 <!--      autoWidth-->
 <!--      borderless-->

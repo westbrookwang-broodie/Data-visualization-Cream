@@ -3,19 +3,19 @@
     <div id='main' style='width: 700px; height: 600px;'></div>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part31'>年份</RouterLink>
+      <RouterLink to='/part31'>Year</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part32'>题材</RouterLink>
+      <RouterLink to='/part32'>Theme</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part33'>导演</RouterLink>
+      <RouterLink to='/part33'>Director</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part34'>演员</RouterLink>
+      <RouterLink to='/part34'>Actors</RouterLink>
     </t-button>
   </div>
 </template>
@@ -48,21 +48,21 @@ export default {
             source: sourceData
           }],
           title: {
-            text: '电影评分票房关系图',
+            text: 'Correlation between movie score and box office',
             // subtext: 'By ecStat.regression',
             left: 'center'
           },
           tooltip:{
             trigger:'item',
             formatter: function(params) {
-              return '名称: ' + params.data[2]
-              +'<br/>评分: ' + params.data[0]
-              +'<br/>票房: ' + params.data[1] + '万'
-              +'<br/>时间: ' + params.data[3]// 显示第三列的数据，即点的名称
+              return 'Name: ' + params.data[2]
+              +'<br/>Score: ' + params.data[0]
+              +'<br/>Box office: ' + params.data[1]*10 + 'k'
+              +'<br/>Time: ' + params.data[3]// 显示第三列的数据，即点的名称
             }
           },
           xAxis: {
-            name:'评分/分',
+            name:'Score',
             axisLabel: {
               interval: 1 // 设置为0表示每个刻度都显示标签
             },
@@ -73,7 +73,7 @@ export default {
             }
           },
           yAxis: {
-            name:'票房/万元',
+            name:'Box Office/thousand Yuan',
             splitLine: {
               lineStyle: {
                 type: 'dashed'

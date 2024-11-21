@@ -1,24 +1,38 @@
 <template>
   <div>
-    <p>This is Part34</p>
-    <div id='main2' style='width: 700px; height: 800px;'></div>
-    <div id='main3' style='width: 6000px; height: 800px;'></div>
+    <div style="display: flex">
+      <div id='main2' style='width: 500px; height: 500px;'></div>
+      <div style=";font-size: 16px;line-height: 2;width: 700px; margin-top: 100px; margin-left: 70px">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        Using the same analysis above for the same sample and the actor as the research object, we can get two sets of graphs of the same style.
+        <br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        Observing the pie chart, we can find that some actors frequently starred in widely recognized films, such as Xu Zheng, Huang Bo, Deng Chao, Chow Xingchi, etc., while some actors were short-lived in these films and disappeared from sight.
+        Excellent films must be supported by the acting skills of the actors, and these films also improve the visibility and influence of the actors, giving them more opportunities to participate in movies.
+        <p/>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        The line chart data is closely connected with the pie chart, and we can intuitively find the average rating of the corresponding actor's popular works in the line chart through the pie chart.
+        Through observation, we can intuitively find that there is still no obvious relationship between the frequency line and the average line in the line chart. For example, Deng Chao's average rating is only about 6 points, despite his frequent appearances in popular movies.
+      </div>
+    </div>
+
+    <div id='main3' style='margin-left:-50px;width: 1500px; height: 400px'></div>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part31'>年份</RouterLink>
+      <RouterLink to='/part31'>Year</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part32'>题材</RouterLink>
+      <RouterLink to='/part32'>Theme</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part33'>导演</RouterLink>
+      <RouterLink to='/part33'>Actors</RouterLink>
     </t-button>
-    <t-button ghost shape="round"
-              size="large">
-      <RouterLink to='/part34'>演员</RouterLink>
-    </t-button>
+<!--    <t-button ghost shape="round"-->
+<!--              size="large">-->
+<!--      <RouterLink to='/part34'>演员</RouterLink>-->
+<!--    </t-button>-->
   </div>
 </template>
 
@@ -54,17 +68,20 @@ export default {
 
         let option1 = {
           title: {
-            text: 'Referer of a Website',
-            subtext: 'Fake Data',
-            left: 'center'
+            text: 'The 200 most popular films - Cast pie chart',
+            left: 'center',
+            textStyle: {
+              color: 'gray'
+            }
           },
           tooltip: {
             trigger: 'item',
+            position:'right',
             formatter: (params) => {
-              return this.data11[params.dataIndex] + '部受欢迎电影: <br/>' +
-                '频次: ' + this.data21[params.dataIndex] + '<br/>' +
-                '百分比: ' + this.data41[params.dataIndex] + '%<br/>' +
-                '名单: ' + this.data31[params.dataIndex]
+              return this.data11[params.dataIndex] + ' Movies: <br/>' +
+                'Frequency: ' + this.data21[params.dataIndex] + '<br/>' +
+                'Percentage: ' + this.data41[params.dataIndex] + '%<br/>' +
+                'Cast: ' + this.data31[params.dataIndex]
             }
           },
           legend: {
@@ -75,11 +92,16 @@ export default {
             {
               name: 'Access From',
               type: 'pie',
-              radius: '50%',
+              radius: ['40%','70%'],
               data: this.data21,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+              },
               label: {
                 formatter: (params) => {
-                  return this.data11[params.dataIndex] + '部'
+                  return this.data11[params.dataIndex] + ' Movies'
                 },
                 rich: {
                   b: {
@@ -115,12 +137,15 @@ export default {
 
         let option2 = {
           legend: {
-            data: ['频次','平均评分'],
+            data: ['Frequency','Avg Score'],
             left: '10%'
           },
           title:{
-            text:"导演对电影的影响",
-            left: 'center'
+            text:"Film frequency and average rating of actors",
+            left: 'center',
+            textStyle: {
+              color: 'gray'
+            }
           },
           brush: {
             toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
@@ -135,10 +160,11 @@ export default {
             }
           },
           tooltip: {
+            trigger: 'axis'
           },
           xAxis: {
             data: this.actor,
-            name: '年',
+            name: 'Year',
             axisLine: { onZero: true },
             splitLine: { show: false },
             splitArea: { show: false }
@@ -151,12 +177,12 @@ export default {
           },
           series: [
             {
-              name: '频次',
+              name: 'Frequency',
               type: 'line',
               data: this.frequency
             },
             {
-              name: '平均评分',
+              name: 'Avg Score',
               type: 'line',
               data: this.score
             }

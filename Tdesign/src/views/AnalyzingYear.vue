@@ -46,11 +46,11 @@ export default {
         const myChart = echarts.init(chartDom)
         let option = {
           legend: {
-            data: ['频次（/年）', '票房（亿元）','受欢迎电影频次'],
+            data: ['Frequency(/Year)', 'Box office (100 million yuan) ',' Popular film frequency'],
             left: '10%'
           },
           title:{
-            text:"年份对电影票房的影响",
+            text:"The effect of the year on the box office of a film",
             left: 'center'
           },
           brush: {
@@ -69,7 +69,7 @@ export default {
           },
           xAxis: {
             data: this.xAxisData,
-            name: '年',
+            name: 'Year',
             axisLine: { onZero: true },
             splitLine: { show: false },
             splitArea: { show: false }
@@ -82,21 +82,21 @@ export default {
           },
           series: [
             {
-              name: '频次（/年）',
+              name: 'Frequency(/Year)',
               type: 'bar',
               stack: 'one',
               emphasis: this.emphasisStyle,
               data: this.data2,
             },
             {
-              name: '票房（亿元）',
+              name: 'Box office (100 million yuan)',
               type: 'bar',
               stack: 'one',
               emphasis: this.emphasisStyle,
               data: this.data1,
             },
             {
-              name: '受欢迎电影频次',
+              name: 'Popular film frequency',
               type: 'line',
               emphasis: this.emphasisStyle,
               data: this.data3
