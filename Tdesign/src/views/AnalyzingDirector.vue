@@ -1,6 +1,6 @@
 <template>
   <div style="margin-left: -50px;">
-    <h2 style="left: 40%;margin-bottom: 50px;font-weight: bold; font-style: italic">导演对电影的影响</h2>
+    <h2 style="left: 40%;margin-bottom: 50px;font-weight: bold; font-style: italic">The director's influence on the film</h2>
     <div style="display: flex; margin-bottom: 100px">
 
       <div id='main0' style='width: 500px; height: 500px; margin-top: 100px'></div>
@@ -8,22 +8,21 @@
         <div id='main1' style='width: 800px; height: 350px;'></div>
         <div style="margin-left: 70px;font-size: 16px;line-height: 2;width: 700px">
           &nbsp;&nbsp;&nbsp;&nbsp;
-          通过分析两百部受欢迎电影中导演的出现频次及评分，我们得到了以上饼状图及折线图。
+          By analyzing the frequency and ratings of directors in 200 popular movies, we get the pie chart and line chart above.
           <br/>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          观察饼状图我们不难发现，只有极少数导演能做到高品质地生产大量受欢迎的影片，
-          其中最为突出的有张艺谋，周星驰，宁浩，冯小刚等家喻户晓的导演。
-          而大部分导演都仅有一两部广受赞誉的影片。
+          Looking at the pie chart, it's easy to see that only a handful of directors are able to produce a large number of popular films at high quality,
+          Among them, the most prominent directors are Zhang Yimou, Stephen Chow, Ning Hao, Feng Xiaogang and other household names.
+          Most directors have only one or two critically acclaimed films.
           <p/>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          折线图数据与饼状图紧密相连，我们可以通过饼状图很直观地在折线图中找到对应导演受欢迎作品的平均评分。
-          通过观察我们可以很直观地发现，折线图中的频率折线与平均分折线并无明显关系。
-
+          The line chart data is closely connected with the pie chart, and we can intuitively find the average score of the corresponding director's popular works in the line chart through the pie chart.
+          Through observation, we can intuitively find that the frequency line in the line chart has no obvious relationship with the average line.
         </div>
       </div>
     </div>
 
-    <h2 style="left: 40%;margin-bottom: 50px;font-weight: bold; font-style: italic">演员对电影的影响</h2>
+    <h2 style="left: 40%;margin-bottom: 50px;font-weight: bold; font-style: italic">The Impact of Actors on Movies</h2>
     <Part34View></Part34View>
   </div>
 

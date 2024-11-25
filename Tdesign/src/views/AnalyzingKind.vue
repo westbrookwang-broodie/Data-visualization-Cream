@@ -5,18 +5,18 @@
       <div id='main1' style='width:700px;height: 700px;'></div>
       <div style='width: 400px;margin-top: 150px;font-size: 16px;line-height: 2'>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        通过分析中国最受欢迎的两百部电影的所属类别情况（每部电影可归属多个类别），
-        我们发现剧情，喜剧，动作，爱情类的电影在中国市场受到了十分广泛的喜爱和认同，其次是奇幻、犯罪、悬疑类别的电影。
+        By analyzing the categories of the 200 most popular movies in China (each movie may belong to multiple categories),
+        we found that drama, comedy, action, and romance films are widely loved and recognized in the Chinese market, followed by fantasy, crime, and suspense categories.
         <br/>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        如果想制作一部口碑良好，受观众认可的电影，可以从以上的几个类别入手研究。
+        If you want to create a well-received and audience-recognized movie, you can focus on researching these categories.
       </div>
     </div>
 
     <div>
-      <h2 style="font-weight: bold; font-style: italic; left: 40%">案例电影类别、特征分析</h2>
+      <h2 style="font-weight: bold; font-style: italic; left: 40%">Case Study: Movie Categories and Feature Analysis</h2>
       <div style="left:25%; margin-top: 20px;font-size: 16px;line-height: 2">
-        我们对以下四十部电影进行了一些简单的分类和衡量，这些分析将以关系图和雷达图的形式呈现。
+        We conducted simple classifications and measurements for the following forty movies. These analyses are presented in the form of relationship charts and radar charts.
       </div>
       <div style="margin-left: -150px">
         <RelationChart></RelationChart>
@@ -26,11 +26,11 @@
         <div style="font-size: 16px;line-height: 2; width: 400px; margin-left: 50px; margin-top: 150px">
 
           <p> &nbsp;&nbsp;&nbsp;&nbsp;
-            以上四十部电影分别选自二十部最受欢迎的电影及二十部评分最高的电影，通过对这些电影的分类，我们制作了如上关系图。
-            通过观察我们发现，这四十部电影的数据与此页面饼状图所分析的电影类别有着很强的共通性——剧情片和爱情片居多，传记、科幻等种类少。</p>
+            The above forty movies were selected from the twenty most popular movies and the twenty highest-rated movies. By classifying these films, we created the relationship chart shown above.
+            Observing these data, we found that these forty movies share strong commonalities with the categories analyzed in the pie chart on this page—mostly dramas and romances, with fewer biographical and sci-fi films.</p>
           <br/>
-          <p> &nbsp;&nbsp;&nbsp;&nbsp;为了深入研究这些电影的特征，我们对每一部电影进一步制作了雷达图，用六个不同维度——电影评分，观影人数，想看人数，评论人数，评分人数，电影时长，
-            来衡量一部电影的质量。用户可以选取自己感兴趣的电影进行以上维度的对比，得出自己的结论。</p>
+          <p> &nbsp;&nbsp;&nbsp;&nbsp;To further explore the features of these movies, we created radar charts for each one, using six different dimensions—movie rating, number of viewers, number of people interested in watching, number of comments, number of raters, and movie duration—
+            to measure the quality of a movie. Users can select their movies of interest to compare across these dimensions and draw their own conclusions.</p>
         </div>
       </div>
 
@@ -38,18 +38,19 @@
 
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part31'>年份</RouterLink>
+      <RouterLink to='/part31'>Year</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part32'>题材</RouterLink>
+      <RouterLink to='/part32'>Genre</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part33'>人员</RouterLink>
+      <RouterLink to='/part33'>Personnel</RouterLink>
     </t-button>
 
   </div>
+
 </template>
 
 <script>

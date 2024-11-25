@@ -1,48 +1,45 @@
 <template>
   <div>
-  <div id="word-cloud" style= "display: flex">
-    <div style="width: 500px">
-    <h1 aria-label="电影" style="font-size: 50px; font-family: KaiTi">电影</h1>
-    <div class="letter svelte-1icc79m"><p class="svelte-1icc79m">
-<!--      <span class="sr-only">电影</span> -->
-      <span class="tagline is-del">是镜头语言<del>能表达一些平时不敢表达的东西.</del><ins class="svelte-1icc79m is-visible"></ins></span>
-      <span class="popular svelte-1icc79m is-visible">你肯定看过
-    		<a onclick="generate('霸王别姬')">
-    			<span>霸王别姬</span></a>
-				<img src="src/assets/img_6.png" alt="story thumbnail">它探讨了情感、性别和文化等多重主题。另外，
-    		<a onclick="generate('我不是药神')">
-    			<span>我不是药神</span></a>
-				<img src="src/assets/img_1.png" alt="story thumbnail"> 通过一个药品销售员的故事，揭示了中国医疗体系中的现实问题。
-    		<a onclick="generate('少年的你')">
-    			<span>少年的你</span></a>
-				<img src="src/assets/img_2.png" alt="story thumbnail">以青春成长为主线，深刻反映了当代社会中的青少年问题。
-    </span> <span class="personal svelte-1icc79m is-visible">黑色幽默的经典之作
-    		<a onclick="generate('让子弹飞')">
-    			<span>让子弹飞</span></a>
-				<img src="src/assets/img_3.png" alt="story thumbnail">获得了广泛赞誉。
-    		<a onclick="generate('西虹市首富')">
-    			<span>西虹市首富</span></a>
-				<img src="src/assets/img_4.png" alt="story thumbnail">是一部现实主义喜剧，通过对“富豪梦”的嘲讽，深刻探讨了人性的弱点。
-    		<a onclick="generate('绿皮书')">
-    			<span>绿皮书</span></a>
-				<img src="src/assets/img_2.png" alt="story thumbnail">是一部温情感人的励志片，描绘了一个黑人钢琴家和他的意大利裔司机之间的不凡旅程。</span>
-      <span class="welcome svelte-1icc79m is-visible">这些优秀的电影作品，在各自领域均有突出表现，值得观众们品味、欣赏和探索。</span></p></div>
-<!--    <t-select-->
-<!--      autoWidth-->
-<!--      borderless-->
-<!--      size="large" @change="generate" placeholder="流浪地球">-->
-<!--      <t-option key="少年的你" label="少年的你" value="少年的你" />-->
-<!--      <t-option key="我不是药神" value="我不是药神">我不是药神</t-option>-->
-<!--      <t-option key="流浪地球" label="流浪地球" value="流浪地球" />-->
-<!--      <t-option key="绿皮书" label="绿皮书" value="绿皮书" />-->
-<!--      <t-option key="西虹市首富" label="西虹市首富" value="西虹市首富" />-->
-<!--      <t-option key="让子弹飞" label="让子弹飞" value="让子弹飞" />-->
-<!--    </t-select>-->
+    <div id="word-cloud" style="display: flex">
+      <div style="width: 500px">
+        <h1 aria-label="Movies" style="font-size: 50px; font-family: KaiTi">Movies</h1>
+        <div class="letter svelte-1icc79m">
+          <p class="svelte-1icc79m">
+          <span class="tagline is-del">Cinema is a language of visual storytelling
+            <del>that can express things we dare not voice otherwise.</del>
+            <ins class="svelte-1icc79m is-visible"></ins>
+          </span>
+            <span class="popular svelte-1icc79m is-visible">You’ve surely seen
+            <a onclick="generate('霸王别姬')">
+              <span>霸王别姬</span></a>
+            <img src="src/assets/img_6.png" alt="story thumbnail">, which explores themes of emotion, gender, and culture.
+            Additionally,
+            <a onclick="generate('我不是药神')">
+              <span>我不是药神</span></a>
+            <img src="src/assets/img_1.png" alt="story thumbnail"> reveals the realities of the Chinese healthcare system through the story of a drug seller.
+            <a onclick="generate('少年的你')">
+              <span>少年的你</span></a>
+            <img src="src/assets/img_2.png" alt="story thumbnail"> follows a coming-of-age storyline, reflecting the challenges faced by youth in modern society.
+          </span>
+            <span class="personal svelte-1icc79m is-visible">A classic of dark humor,
+            <a onclick="generate('让子弹飞')">
+              <span>让子弹飞</span></a>
+            <img src="src/assets/img_3.png" alt="story thumbnail"> received widespread acclaim.
+            <a onclick="generate('西虹市首富')">
+              <span>西虹市首富</span></a>
+            <img src="src/assets/img_4.png" alt="story thumbnail"> is a satirical comedy reflecting on human nature through the critique of a "billionaire dream."
+            <a onclick="generate('绿皮书')">
+              <span>绿皮书</span></a>
+            <img src="src/assets/img_2.png" alt="story thumbnail"> is a heartwarming, inspiring story about an extraordinary journey between a Black pianist and his Italian-American driver.
+          </span>
+            <span class="welcome svelte-1icc79m is-visible">These outstanding films excel in their respective genres and are well worth the audience's time to savor, appreciate, and explore.</span>
+          </p>
+        </div>
+      </div>
+      <div id="world-cloud-graph" style="margin-top: 20%"></div>
     </div>
-    <div id="world-cloud-graph" style="margin-top: 20%"></div>
-  </div>
     <div style="margin-top: 20px">
-      <h2 style="font-weight: bold; left: 25%; font-style: italic">情感分析热图</h2>
+      <h2 style="font-weight: bold; left: 25%; font-style: italic">Sentiment Analysis Heatmap</h2>
       <HeapMap></HeapMap>
     </div>
   </div>

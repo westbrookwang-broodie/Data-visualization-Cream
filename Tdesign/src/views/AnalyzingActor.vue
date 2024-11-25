@@ -4,16 +4,15 @@
       <div id='main2' style='width: 500px; height: 500px;'></div>
       <div style=";font-size: 16px;line-height: 2;width: 700px; margin-top: 100px; margin-left: 70px">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        对同一样本以演员为研究对象进行以上相同的分析，我们可以得到相同样式的两组图。
+        Using the same analysis above for the same sample and the actor as the research object, we can get two sets of graphs of the same style.
         <br/>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        观察饼状图我们可以发现，部分演员频繁主演了广受认可的电影，如徐峥，黄渤，邓超，周星驰等，也有演员就在这些电影中昙花一现，从此销声匿迹。
-        优秀电影的背后必然有演员的演技支持，而这些电影也反向提高了演员的知名度和影响力，给予他们更多参演电影的机会。
+        Observing the pie chart, we can find that some actors frequently starred in widely recognized films, such as Xu Zheng, Huang Bo, Deng Chao, Chow Xingchi, etc., while some actors were short-lived in these films and disappeared from sight.
+        Excellent films must be supported by the acting skills of the actors, and these films also improve the visibility and influence of the actors, giving them more opportunities to participate in movies.
         <p/>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        折线图数据与饼状图紧密相连，我们可以通过饼状图很直观地在折线图中找到对应演员受欢迎作品的平均评分。
-        通过观察我们可以很直观地发现，折线图中的频率折线与平均分折线依旧并无明显关系。如，邓超虽然频繁出现在受欢迎电影中，他的平均评分却只有6分左右。
-
+        The line chart data is closely connected with the pie chart, and we can intuitively find the average rating of the corresponding actor's popular works in the line chart through the pie chart.
+        Through observation, we can intuitively find that there is still no obvious relationship between the frequency line and the average line in the line chart. For example, Deng Chao's average rating is only about 6 points, despite his frequent appearances in popular movies.
       </div>
     </div>
 

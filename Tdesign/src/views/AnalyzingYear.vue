@@ -3,28 +3,28 @@
     <div id='main' style='width: 1200px; height: 500px;'></div>
     <div style='font-size: 16px;line-height: 2;margin-bottom: 60px; width: 1000px; margin-left: 5%'>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      根据已知数据，我们生成了如上关于年份对电影票房影响的柱状图。
-      横坐标表示了年份，纵坐标则利用不同色彩和形式表示了电影频次，电影总票房，受欢迎电影频次三组数据。
+      Based on the available data, we have generated the above bar chart illustrating the impact of years on movie box office performance.
+      The horizontal axis represents the years, while the vertical axis uses different colors and styles to indicate three sets of data: movie frequency, total box office revenue, and frequency of popular movies.
       <br/>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      通过观察我们发现，自2000-2019年中国电影市场整体升幅较大,电影频次及票房基数都有显著的提升，整体趋势向上。
-      然而，2020年-2022年，电影市场却出现了低迷期。这样的低迷与新型冠状病毒疫情造成的种种打击密不可分。
-      相信度过危机后的电影市场将迅速恢复。
-
+      Observing the chart, we find that the Chinese film market experienced significant growth from 2000 to 2019, with substantial increases in movie frequency and box office revenue, indicating an upward trend overall.
+      However, from 2020 to 2022, the market entered a period of decline. This downturn is closely linked to the impact of the COVID-19 pandemic.
+      It is believed that the movie market will recover rapidly after overcoming this crisis.
     </div>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part31'>年份</RouterLink>
+      <RouterLink to='/part31'>Year</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part32'>题材</RouterLink>
+      <RouterLink to='/part32'>Genre</RouterLink>
     </t-button>
     <t-button ghost shape="round"
               size="large">
-      <RouterLink to='/part33'>人员</RouterLink>
+      <RouterLink to='/part33'>Personnel</RouterLink>
     </t-button>
   </div>
+
 
 </template>
 

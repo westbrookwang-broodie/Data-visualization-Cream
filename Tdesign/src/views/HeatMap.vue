@@ -3,18 +3,17 @@
 </div>
   <div style='font-size: 16px;line-height: 2;margin-bottom: 60px;width: 350px;margin-left: 750px;top: -600px'>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    我们选取了豆瓣网站评分最高和最受欢迎的共380部电影或纪录片，收集并分析了超过二十万条来自全球各地用户的影片短评，尝试从中提取出一些信息。
+    We selected a total of 380 movies or documentaries with the highest ratings and popularity on the Douban website. Over 200,000 short reviews from users worldwide were collected and analyzed to extract meaningful information.
     <br/>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    我们认为，一部电影能够给观众留下的初印象的优劣程度，很大程度上能够反映这部电影内容情节的质量。
-    短评，作为用户观影后第一时间在社交媒体和论坛发表的观点，能够很好地反映观众的初印象。
-    因此，我们希望利用自然语言处理(NLP)技术，计算每段短评的情感分数，从而体现评论者对于电影的态度。
+    We believe that the initial impression a movie leaves on its audience largely reflects the quality of its content and storyline.
+    Short reviews, which are opinions shared by users on social media and forums immediately after watching a movie, serve as a good indicator of audience first impressions.
+    Therefore, we aim to use Natural Language Processing (NLP) techniques to calculate the sentiment scores of each review, reflecting the reviewers' attitudes toward the movies.
     <br/>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    在左侧的情感分析图表中，我们选取展示了部分电影的短评情感分数。分值越高，代表该电影短评的情感越趋于积极正面。
-    同时，从图表整体上看，从上往下颜色由浅入深，表明图表中电影由上而下越来越受欢迎。
-
-
+    In the sentiment analysis chart on the left, we displayed sentiment scores for short reviews of selected movies.
+    Higher scores indicate that the sentiments expressed in the short reviews are more positive and favorable.
+    Additionally, as shown in the chart, the color transitions from light to dark from top to bottom, indicating that the movies become increasingly popular in descending order.
   </div>
 
 </template>

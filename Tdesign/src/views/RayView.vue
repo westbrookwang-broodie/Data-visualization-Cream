@@ -1,8 +1,8 @@
 <template>
   <div style="width: 700px;">
-    <t-select id="iu" placeholder="最受欢迎" v-model="type" autoWidth @change="icsv2(type)">
-      <t-option key="pop" label="最受欢迎" value="most_pop_filmray"/>
-      <t-option key="score" label="评分最高" value="most_score_filmray"/>
+    <t-select id="iu" placeholder="Most Popular" v-model="type" autoWidth @change="icsv2(type)">
+      <t-option key="pop" label="Most Popular" value="most_pop_filmray"/>
+      <t-option key="score" label="Highest Rated" value="most_score_filmray"/>
     </t-select>
     <div id="ray" style='width: 600px; height: 750px;'>
     </div>

@@ -3,15 +3,16 @@
     <div id="atlasMain" style="width: 800px;"></div>
     <div style='width:400px;margin-top: 100px;font-size: 16px;line-height: 2'>
       <p>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      时光如梭，而电影票房的动态却凝聚着岁月的痕迹。在这个页面上，我们带你踏上一段时间之旅，从2000年到2022年，
-      探索每年的前几名电影票房。</p>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        Time flies, but the dynamics of box office revenues capture the traces of the years. On this page, we take you on a journey through time, from 2000 to 2022,
+        exploring the top box office hits of each year.</p>
       <br/>
       <p>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      这个动态图将展示着过去二十多年中每年票房冠军的电影，让你亲眼目睹经典之作的辉煌崛起。
-      透过数据的视角，你将发现票房的起伏和变化，揭示出影响力瞬息万变的电影市场。无论是商业大片的崛起，还是突破性的独立电影，
-      这个动态图将带你领略电影票房的壮丽风景线，并让你更加了解电影产业的发展历程和成功之道。</p>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        This dynamic chart showcases the box office champions of the past two decades, allowing you to witness the rise of classic masterpieces.
+        Through the lens of data, you will observe the ebb and flow of box office trends, revealing the ever-changing influences in the movie market.
+        Whether it's the rise of blockbuster films or groundbreaking independent productions, this chart offers a stunning panorama of box office achievements,
+        providing insights into the evolution of the film industry and the paths to success.</p>
     </div>
   </div>
 </template>

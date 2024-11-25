@@ -1,52 +1,50 @@
 <template>
   <div style="padding: 10px">
-<!--    <button @click="play('slide_topToBottom')">从顶部滑入、底部滑出</button>-->
-<!--    <button @click="play('slide_bottomToTop')">从底部滑入、顶部滑出</button>-->
-<!--    <button @click="play('slide_leftToRight')">从左侧滑入、右侧滑出</button>-->
-<!--    <button @click="play('slide_rightToLeft')">从右侧滑入、左侧滑出</button>-->
     <div class="view">
       <transition :name="'slide_bottomToTop'">
-        <div v-show="active ===1" class="block red" style="padding: -15px" onclick="play('slide_leftToRight')">
-          <h1 class="box1" v-show="active ===1">中国电影票房数据分析</h1>
-          <h2 class="ii" v-show="active ===1" style="margin: -10px">我们分成三类进行讨论:   </h2>
-          <a v-show="active ===1" style="padding: -20px">
-            <router-link :to="{path: '/moviebox'}">票房趋势分析</router-link>
-            ,
+        <div v-show="active === 1" class="block red" style="padding: -15px" onclick="play('slide_leftToRight')">
+          <h1 class="box1" v-show="active === 1">Chinese Movie Box Office Data Analysis</h1>
+          <h2 class="ii" v-show="active === 1" style="margin: -10px">We divide the discussion into three categories:</h2>
+          <a v-show="active === 1" style="padding: -20px">
+            <router-link :to="{path: '/moviebox'}">Box Office Trend Analysis</router-link>,
           </a>
-          <br>
-          <a v-show="active ===1">
-            <router-link :to="{path: '/cloud'}">电影评论分析</router-link>
-            ,
+          <br />
+          <a v-show="active === 1">
+            <router-link :to="{path: '/cloud'}">Movie Review Analysis</router-link>,
           </a>
-          <br>
-          <a v-show="active ===1">
-            <router-link :to="{path: '/part3'}">优秀电影特征分析</router-link>
-            ,
+          <br />
+          <a v-show="active === 1">
+            <router-link :to="{path: '/part3'}">Analysis of Excellent Movie Characteristics</router-link>,
           </a>
-          <br>
-<!--          <a v-show="active===1">-->
-<!--            <router-link :to="{path: '/heatMap'}">情感分析</router-link>-->
-<!--            .-->
-<!--          </a>-->
-<!--          <br>-->
+          <br />
           <span></span>
-          <h1 class="box2" v-show="active ===1">来分析数据</h1>
+          <h1 class="box2" v-show="active === 1">Let’s Analyze the Data</h1>
         </div>
       </transition>
       <transition :name="transName">
-        <div v-show="active ===2" class="block green" onclick="play('slide_rightToLeft')" style="width: 100%; height: 100%">
+        <div
+          v-show="active === 2"
+          class="block green"
+          onclick="play('slide_rightToLeft')"
+          style="width: 100%; height: 100%"
+        >
           <div class="v-waterfall-content" id="v-waterfall">
-            <div v-for="(img, index) in waterfallList" :key="index" class="v-waterfall-item" :style="{top:img.top+'px',left:img.left+'px',width:waterfallImgWidth+'px',height:img.height}">
-              <img :src="img.src" alt="">
-              <p style="font-size: small;color: #666;margin: 4px;">{{img.title}}</p>
-              <p style="font-size: x-small;color: #9e9e9e;margin: 4px;padding-bottom: 6px;">{{img.info}}</p>
+            <div
+              v-for="(img, index) in waterfallList"
+              :key="index"
+              class="v-waterfall-item"
+              :style="{top: img.top + 'px', left: img.left + 'px', width: waterfallImgWidth + 'px', height: img.height}"
+            >
+              <img :src="img.src" alt="" />
+              <p style="font-size: small; color: #666; margin: 4px;">{{ img.title }}</p>
+              <p style="font-size: x-small; color: #9e9e9e; margin: 4px; padding-bottom: 6px;">{{ img.info }}</p>
             </div>
           </div>
-
         </div>
       </transition>
     </div>
   </div>
+
 </template>
 <script>
 // import { createRequire } from 'module';
